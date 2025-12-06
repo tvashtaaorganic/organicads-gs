@@ -1,5 +1,5 @@
 // Test database connection
-import { turso } from './turso';
+import turso from './turso';
 
 async function testConnection() {
     try {

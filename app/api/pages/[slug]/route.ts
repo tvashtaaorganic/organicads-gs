@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import turso from '@/lib/turso';
 
-export async function GET(req: Request, context: { params: { slug: string } }) {
-    const { params } = context;
-    const slug = params.slug;
+export async function GET(req: Request, props: { params: Promise<{ slug: string }> }) {
+    const params = await props.params;
+    const { slug } = params;
 
     if (!slug) {
         return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
