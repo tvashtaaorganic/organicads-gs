@@ -13,6 +13,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 import ServiceContent from '@/components/ServiceContent';
 import ServiceCustomCard from '@/components/ServiceCustomCard';
 import ServiceBadge from '@/components/ServiceBadge';
+import ServiceStructuredData from '@/components/ServiceStructuredData';
 
 interface WhatsAppServiceProps {
     service: {
@@ -56,6 +57,15 @@ export default function WhatsAppService({ service }: WhatsAppServiceProps) {
 
     return (
         <div className="min-h-screen">
+            <ServiceStructuredData 
+                serviceName={service.name}
+                serviceType={service.servicename}
+                description={service.descriptiontag}
+                locationin={service.locationin}
+                cityin={service.cityin}
+                countryin={service.countryin}
+                slug={service.slug}
+            />
             <Header />
 
             <section className="relative min-h-[60vh] flex items-center justify-center px-4 pt-24 pb-12 overflow-hidden">
