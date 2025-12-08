@@ -12,8 +12,7 @@ import BackToTop from '@/components/BackToTop';
 import Breadcrumb from '@/components/Breadcrumb';
 import ServiceContent from '@/components/ServiceContent';
 import ServiceCustomCard from '@/components/ServiceCustomCard';
-import { Badge } from '@/components/ui/badge';
-import { Zap } from 'lucide-react';
+import ServiceBadge from '@/components/ServiceBadge';
 
 interface VoiceServiceProps {
     service: {
@@ -67,10 +66,13 @@ export default function VoiceService({ service }: VoiceServiceProps) {
                         <Breadcrumb items={breadcrumbItems} />
                     </div>
 
-                    <Badge className="mb-6 px-6 py-3 text-base font-medium bg-orange-500/20 border-orange-500/40 hover:bg-orange-500/30 text-primary-foreground">
-                        <Zap className="w-5 h-5 mr-2 inline fill-current" />
-                        Automated IVR & Voice OTP - Boost Conversions by 300%!
-                    </Badge>
+                    <ServiceBadge 
+                        servicename={service.servicename}
+                        name={service.name}
+                        locationin={service.locationin}
+                        cityin={service.cityin}
+                        countryin={service.countryin}
+                    />
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                         <span className="gradient-text">{service.name}</span>

@@ -12,8 +12,7 @@ import BackToTop from '@/components/BackToTop';
 import Breadcrumb from '@/components/Breadcrumb';
 import ServiceContent from '@/components/ServiceContent';
 import ServiceCustomCard from '@/components/ServiceCustomCard';
-import { Badge } from '@/components/ui/badge';
-import { Zap } from 'lucide-react';
+import ServiceBadge from '@/components/ServiceBadge';
 
 interface RCSServiceProps {
     service: {
@@ -67,10 +66,13 @@ export default function RCSService({ service }: RCSServiceProps) {
                         <Breadcrumb items={breadcrumbItems} />
                     </div>
 
-                    <Badge className="mb-6 px-6 py-3 text-base font-medium bg-blue-500/20 border-blue-500/40 hover:bg-blue-500/30 text-primary-foreground">
-                        <Zap className="w-5 h-5 mr-2 inline fill-current" />
-                        Next-Gen Rich Communication Services - App-Like SMS Experience!
-                    </Badge>
+                    <ServiceBadge
+                        servicename={service.servicename}
+                        name={service.name}
+                        locationin={service.locationin}
+                        cityin={service.cityin}
+                        countryin={service.countryin}
+                    />
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                         <span className="gradient-text">{service.name}</span>

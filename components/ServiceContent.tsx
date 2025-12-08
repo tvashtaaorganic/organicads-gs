@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { PageData } from '@/lib/turso';
+import { getServiceConfig } from '@/lib/serviceContent';
 
 interface ServiceContentProps {
     pageData: PageData;
@@ -27,25 +28,16 @@ export default function ServiceContent({ pageData }: ServiceContentProps) {
         window.open('https://forms.fillout.com/t/bBpksmrcG1us', '_blank');
     };
 
-    // Sample content - this would be dynamic from database
-    const contentSections = [
-        {
-            title: `What is ${pageData.name}?`,
-            content: `${pageData.name} is a comprehensive digital solution designed to help businesses in ${pageData.locationin}, ${pageData.cityin}, ${pageData.countryin} achieve their online goals. Our expert team delivers results-driven strategies tailored to your specific needs.`
-        },
-        {
-            title: `Why Choose Our ${pageData.name} Services?`,
-            content: `We specialize in providing top-tier ${pageData.name} services to businesses across ${pageData.cityin} and ${pageData.countryin}. With over 500+ happy clients and presence in 15+ countries, we deliver measurable results within 4 hours.`
-        },
-        {
-            title: `Our ${pageData.name} Process`,
-            content: `Our proven process ensures maximum ROI for your ${pageData.name} investment. We analyze your business needs, create a customized strategy, implement cutting-edge solutions, and continuously optimize for better performance.`
-        },
-        {
-            title: `Benefits of ${pageData.name}`,
-            content: `Increase your online visibility, drive more qualified traffic, boost conversions, and grow your revenue with our ${pageData.name} services. We focus on delivering tangible results that impact your bottom line.`
-        },
-    ];
+    // Get dynamic content based on servicename
+    const serviceConfig = getServiceConfig(
+        pageData.servicename || '',
+        pageData.name,
+        pageData.locationin,
+        pageData.cityin,
+        pageData.countryin
+    );
+
+    const contentSections = serviceConfig.contentSections;
 
     const visibleSections = showFullContent ? contentSections : contentSections.slice(0, 2);
 

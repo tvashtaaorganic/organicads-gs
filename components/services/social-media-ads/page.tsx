@@ -12,8 +12,7 @@ import BackToTop from '@/components/BackToTop';
 import Breadcrumb from '@/components/Breadcrumb';
 import ServiceContent from '@/components/ServiceContent';
 import ServiceCustomCard from '@/components/ServiceCustomCard';
-import { Badge } from '@/components/ui/badge';
-import { Zap } from 'lucide-react';
+import ServiceBadge from '@/components/ServiceBadge';
 
 interface SocialMediaAdsServiceProps {
     service: {
@@ -67,10 +66,13 @@ export default function SocialMediaAdsService({ service }: SocialMediaAdsService
                         <Breadcrumb items={breadcrumbItems} />
                     </div>
 
-                    <Badge className="mb-6 px-6 py-3 text-base font-medium bg-cyan-600/20 border-cyan-600/40 hover:bg-cyan-600/30 text-primary-foreground">
-                        <Zap className="w-5 h-5 mr-2 inline fill-current" />
-                        Meta, LinkedIn, Twitter, TikTok - 5x ROI on Ad Spend!
-                    </Badge>
+                    <ServiceBadge 
+                        servicename={service.servicename}
+                        name={service.name}
+                        locationin={service.locationin}
+                        cityin={service.cityin}
+                        countryin={service.countryin}
+                    />
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                         <span className="gradient-text">{service.name}</span>
