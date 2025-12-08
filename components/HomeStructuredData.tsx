@@ -224,26 +224,31 @@ export default function HomeStructuredData() {
                 id="organization-schema"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+                strategy="beforeInteractive"
             />
             <Script
                 id="website-schema"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+                strategy="beforeInteractive"
             />
             <Script
                 id="local-business-schema"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                strategy="beforeInteractive"
             />
             <Script
                 id="service-schema"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+                strategy="beforeInteractive"
             />
             <Script
                 id="breadcrumb-schema"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+                strategy="beforeInteractive"
             />
         </>
     );

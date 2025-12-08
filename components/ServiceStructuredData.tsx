@@ -20,50 +20,6 @@ export default function ServiceStructuredData({
     slug
 }: ServiceStructuredDataProps) {
 
-    const serviceSchema = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "serviceType": serviceName,
-        "name": serviceName,
-        "description": description,
-        "provider": {
-            "@type": "Organization",
-            "name": "Organic Ads Technologies",
-            "url": "https://www.organicads.in",
-            "logo": "https://res.cloudinary.com/s2ucdn/image/upload/v1734515561/organicads-logo_n5yg79.png",
-            "telephone": "+91-7259404569",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": locationin,
-                "addressLocality": cityin,
-                "addressRegion": countryin === "India" ? "Karnataka" : countryin,
-                "addressCountry": countryin === "India" ? "IN" : "US"
-            }
-        },
-        "areaServed": {
-            "@type": "City",
-            "name": cityin,
-            "containedIn": {
-                "@type": "Country",
-                "name": countryin
-            }
-        },
-        "offers": {
-            "@type": "Offer",
-            "availability": "https://schema.org/InStock",
-            "priceCurrency": countryin === "India" ? "INR" : "USD",
-            "price": "Contact for pricing",
-            "url": `https://www.organicads.in/services/${slug}`
-        },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.8",
-            "reviewCount": "500",
-            "bestRating": "5",
-            "worstRating": "1"
-        }
-    };
-
     const breadcrumbSchema = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -128,55 +84,88 @@ export default function ServiceStructuredData({
         ]
     };
 
-    const localBusinessSchema = {
+    const organizationSchema = {
         "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": `Organic Ads Technologies - ${serviceName}`,
-        "image": "https://res.cloudinary.com/s2ucdn/image/upload/v1734515561/organicads-logo_n5yg79.png",
-        "url": `https://www.organicads.in/services/${slug}`,
-        "telephone": "+91-7259404569",
+        "@type": "Organization",
+        "name": "Organic Ads Technologies",
+        "url": "https://www.organicads.in",
+        "logo": "https://res.cloudinary.com/s2ucdn/image/upload/v1734515561/organicads-logo_n5yg79.png",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-7259404569",
+            "contactType": "Customer Service",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Hindi"]
+        },
         "address": {
             "@type": "PostalAddress",
             "streetAddress": locationin,
             "addressLocality": cityin,
             "addressRegion": countryin === "India" ? "Karnataka" : countryin,
             "postalCode": "562123",
-            "addressCountry": countryin === "India" ? "IN" : "US"
+            "addressCountry": "IN"
+        }
+    };
+
+    const webPageSchema = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": `${serviceName} in ${cityin}, ${countryin}`,
+        "description": description,
+        "url": `https://www.organicads.in/services/${slug}`,
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://www.organicads.in"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Services"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": serviceName
+                }
+            ]
         },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "13.0997",
-            "longitude": "77.3943"
-        },
-        "priceRange": "$$",
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.8",
-            "reviewCount": "500"
+        "provider": {
+            "@type": "Organization",
+            "name": "Organic Ads Technologies",
+            "telephone": "+91-7259404569"
         }
     };
 
     return (
         <>
             <Script
-                id="service-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-            />
-            <Script
                 id="breadcrumb-schema"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+                strategy="beforeInteractive"
             />
             <Script
                 id="faq-schema"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+                strategy="beforeInteractive"
             />
             <Script
-                id="local-business-schema"
+                id="organization-schema"
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+                strategy="beforeInteractive"
+            />
+            <Script
+                id="webpage-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+                strategy="beforeInteractive"
             />
         </>
     );
