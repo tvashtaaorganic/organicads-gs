@@ -72,14 +72,6 @@ export default function ServiceStructuredData({
                     "@type": "Answer",
                     "text": "We deliver measurable results within 4 hours to 30 days depending on the service type and your specific requirements."
                 }
-            },
-            {
-                "@type": "Question",
-                "name": `What areas do you serve for ${serviceName}?`,
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": `We provide ${serviceName} services across ${cityin}, ${countryin}, and globally in 15+ countries.`
-                }
             }
         ]
     };
@@ -107,40 +99,6 @@ export default function ServiceStructuredData({
         }
     };
 
-    const webPageSchema = {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": `${serviceName} in ${cityin}, ${countryin}`,
-        "description": description,
-        "url": `https://www.organicads.in/services/${slug}`,
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Home",
-                    "item": "https://www.organicads.in"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "Services"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 3,
-                    "name": serviceName
-                }
-            ]
-        },
-        "provider": {
-            "@type": "Organization",
-            "name": "Organic Ads Technologies",
-            "telephone": "+91-7259404569"
-        }
-    };
-
     return (
         <>
             <Script
@@ -159,12 +117,6 @@ export default function ServiceStructuredData({
                 id="organization-schema"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-                strategy="beforeInteractive"
-            />
-            <Script
-                id="webpage-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
                 strategy="beforeInteractive"
             />
         </>
