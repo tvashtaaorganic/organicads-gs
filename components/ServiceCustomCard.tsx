@@ -24,6 +24,10 @@ export default function ServiceCustomCard({ serviceName }: ServiceCustomCardProp
     const getDescription = () => {
         const name = serviceName.toLowerCase();
 
+        if (name.includes('rcs')) {
+            return `Transform your customer communication with our customized ${serviceName} solutions. Rich Communication Services (RCS) is the next evolution of SMS, offering interactive, app-like messaging experiences directly in your customers' default messaging app. Our RCS services include verified sender badges, rich media carousels, suggested replies, and real-time analytics. Whether you need appointment reminders, promotional campaigns, or customer support automation, we build RCS strategies that boost engagement rates by up to 300%. Leverage the power of branded messaging with read receipts, typing indicators, and high-resolution images to create memorable customer interactions.`;
+        }
+
         if (name.includes('seo') || name.includes('search engine')) {
             return `Looking for tailored solutions to boost your online presence? Our customized ${serviceName} services are designed to meet your unique business needs, ensuring maximum ROI and growth. From keyword research and on-page optimization to link building and content strategy, we create personalized plans that align with your goals. Whether you're a startup or an established brand, our expert team leverages the latest SEO tools and trends to drive organic traffic, improve rankings, and increase conversions. Let us help you dominate the search results with strategies crafted exclusively for your success.`;
         }
