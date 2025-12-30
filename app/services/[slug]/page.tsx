@@ -1,28 +1,51 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { cache } from 'react';
+import { unstable_cache } from 'next/cache';
 import DMService from '@/components/services/dm/page';
 import SEOService from '@/components/services/seo/page';
 import WhatsAppService from '@/components/services/whatsapp/page';
 import WebDevService from '@/components/services/webdev/page';
+import BackendCloudService from '@/components/services/backend-cloud/page';
+import BulkSMSService from '@/components/services/bulk-sms/page';
+import ChatbotService from '@/components/services/chatbot/page';
+import MobileAppService from '@/components/services/mobile-app/page';
+import MultiChannelService from '@/components/services/multi-channel/page';
+import RCSService from '@/components/services/rcs/page';
+import SocialMediaAdsService from '@/components/services/social-media-ads/page';
+import UIUXService from '@/components/services/uiux/page';
+import VoiceService from '@/components/services/voice/page';
 import turso from '@/lib/turso';
 
-async function fetchPageData(slug: string) {
-    console.log('!!! FETCHING DATA FOR SLUG:', slug);
+// Cache the database query for 1 hour (3600 seconds)
+const getCachedPageData = unstable_cache(
+    async (slug: string) => {
+        console.log('!!! FETCHING DATA FROM DATABASE FOR SLUG:', slug);
 
-    // Direct query without try-catch to see errors
-    const result = await turso.execute({
-        sql: 'SELECT * FROM pages WHERE slug = ? LIMIT 1',
-        args: [slug],
-    });
+        const result = await turso.execute({
+            sql: 'SELECT * FROM pages WHERE slug = ? LIMIT 1',
+            args: [slug],
+        });
 
-    console.log('!!! QUERY RESULT ROWS:', result.rows.length);
+        console.log('!!! QUERY RESULT ROWS:', result.rows.length);
 
-    if (result.rows.length === 0) {
-        return null;
+        if (result.rows.length === 0) {
+            return null;
+        }
+
+        return result.rows[0];
+    },
+    ['service-page'], // Cache key prefix
+    {
+        revalidate: 3600, // Cache for 1 hour
+        tags: ['service-pages'], // Tag for cache invalidation
     }
+);
 
-    return result.rows[0];
-}
+// Use React cache to deduplicate requests within the same render
+const fetchPageData = cache(async (slug: string) => {
+    return await getCachedPageData(slug);
+});
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
@@ -91,8 +114,29 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         return <WhatsAppService service={service} />;
     } else if (servicename === 'webdev' || servicename.includes('web')) {
         return <WebDevService service={service} />;
+    } else if (servicename.includes('cloud') || servicename.includes('backend')) {
+        return <BackendCloudService service={service} />;
+    } else if (servicename.includes('sms') || servicename.includes('bulk')) {
+        return <BulkSMSService service={service} />;
+    } else if (servicename.includes('chat') || servicename.includes('bot')) {
+        return <ChatbotService service={service} />;
+    } else if (servicename.includes('app') || servicename.includes('mobile')) {
+        return <MobileAppService service={service} />;
+    } else if (servicename.includes('multi') || servicename.includes('channel')) {
+        return <MultiChannelService service={service} />;
+    } else if (servicename.includes('rcs')) {
+        return <RCSService service={service} />;
+    } else if (servicename.includes('social') || servicename.includes('ads')) {
+        return <SocialMediaAdsService service={service} />;
+    } else if (servicename.includes('ui') || servicename.includes('ux') || servicename.includes('design')) {
+        return <UIUXService service={service} />;
+    } else if (servicename.includes('voice') || servicename.includes('call')) {
+        return <VoiceService service={service} />;
     }
 
     // Default fallback
     return <SEOService service={service} />;
 }
+
+// Enable static generation for better performance
+export const revalidate = 3600; // Revalidate every hour

@@ -14,6 +14,12 @@ import ServiceContent from '@/components/ServiceContent';
 import ServiceCustomCard from '@/components/ServiceCustomCard';
 import ServiceBadge from '@/components/ServiceBadge';
 import ServiceStructuredData from '@/components/ServiceStructuredData';
+import AboutSection from '@/components/AboutSection';
+import EnhancedPortfolio from '@/components/EnhancedPortfolio';
+import WorkProcess from '@/components/WorkProcess';
+import PricingSection from '@/components/PricingSection';
+import PlatformSolutions from '@/components/PlatformSolutions';
+import Testimonials from '@/components/Testimonials';
 
 interface ChatbotServiceProps {
     service: {
@@ -57,7 +63,7 @@ export default function ChatbotService({ service }: ChatbotServiceProps) {
 
     return (
         <div className="min-h-screen">
-            <ServiceStructuredData 
+            <ServiceStructuredData
                 serviceName={service.name}
                 serviceType={service.servicename}
                 description={service.descriptiontag}
@@ -76,7 +82,7 @@ export default function ChatbotService({ service }: ChatbotServiceProps) {
                         <Breadcrumb items={breadcrumbItems} />
                     </div>
 
-                    <ServiceBadge 
+                    <ServiceBadge
                         servicename={service.servicename}
                         name={service.name}
                         locationin={service.locationin}
@@ -84,10 +90,9 @@ export default function ChatbotService({ service }: ChatbotServiceProps) {
                         countryin={service.countryin}
                     />
 
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                        <span className="gradient-text">{service.name}</span>
-                        <br />
-                        <span className="text-foreground">
+                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-normal md:leading-tight px-2">
+                        <span className="gradient-text block mb-2 md:mb-0">{service.name}</span>
+                        <span className="text-foreground block md:inline">
                             in {service.locationin}, {service.cityin}, {service.countryin}
                         </span>
                     </h1>
@@ -104,10 +109,15 @@ export default function ChatbotService({ service }: ChatbotServiceProps) {
             <ServiceCustomCard serviceName={service.name} />
             <FeaturedIn />
             <ServiceContent pageData={pageData} />
-            <Portfolio />
+            <AboutSection />
+            <EnhancedPortfolio />
+            <WorkProcess />
             <SEOResults />
             <Services />
+            <PlatformSolutions />
             <Features />
+            <PricingSection />
+            <Testimonials />
             <CTA />
             <Footer />
             <BackToTop />

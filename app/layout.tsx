@@ -11,7 +11,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Organic Ads Technologies - Web Development, Digital Marketing & Business Messaging Solutions in Bangalore",
-  description: "Top Google & Bing rankings in 4 hours! Expert web development, mobile apps, SEO, WhatsApp Business API, RCS messaging, bulk SMS, voice solutions & chatbot services in Bangalore, Karnataka. 500+ happy clients across 15+ countries.",
+  description: "Top Google & Bing rankings in 4 days! Expert web development, mobile apps, SEO, WhatsApp Business API, RCS messaging, bulk SMS, voice solutions & chatbot services in Bangalore, Karnataka. 500+ happy clients across 15+ countries.",
   keywords: [
     "web development bangalore",
     "digital marketing bangalore",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Organic Ads Technologies - Digital Marketing & Messaging Solutions",
-    description: "Achieve top Google & Bing rankings in 4 hours. Web development, SEO, WhatsApp API, RCS, SMS & voice solutions.",
+    description: "Achieve top Google & Bing rankings in 4 days. Web development, SEO, WhatsApp API, RCS, SMS & voice solutions.",
     type: "website",
     locale: "en_IN",
   },

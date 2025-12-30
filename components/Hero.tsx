@@ -45,7 +45,7 @@ export default function Hero() {
         >
           <Badge className="mb-6 px-6 py-3 text-base font-medium bg-primary/20 border-primary/40 hover:bg-primary/30 text-primary-foreground">
             <Zap className="w-5 h-5 mr-2 inline fill-current" />
-            Top Google & Bing Rankings in 4 Hours!
+            Top Google & Bing Rankings in 4 Days!
           </Badge>
         </motion.div>
 

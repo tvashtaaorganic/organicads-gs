@@ -12,9 +12,16 @@ export default function Footer() {
                     {/* Company Info */}
                     <div>
                         <h3 className="text-2xl font-bold gradient-text mb-4">Organic Ads Technologies</h3>
-                        <p className="text-muted-foreground mb-4">
-                            Your trusted partner for web development, app development, and digital marketing solutions.
+                        <p className="text-muted-foreground mb-4 leading-relaxed">
+                            Your trusted partner for comprehensive digital solutions. We specialize in web development,
+                            mobile app development, and cutting-edge digital marketing strategies that drive real results.
                         </p>
+                        <p className="text-muted-foreground mb-4 leading-relaxed">
+                            From stunning websites and powerful mobile apps to advanced messaging solutions (WhatsApp Business API,
+                            RCS, Bulk SMS) and AI-powered chatbots, we deliver end-to-end digital transformation for businesses
+                            of all sizes.
+                        </p>
+                        
                         <div className="flex gap-3">
                             <a href="https://www.facebook.com/organicads1/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors">
                                 <Facebook className="w-5 h-5 text-primary" />
@@ -33,7 +40,7 @@ export default function Footer() {
                         <h4 className="font-semibold text-lg mb-4">Services</h4>
                         <ul className="space-y-2 text-muted-foreground">
                             <li><a href="#services" className="hover:text-primary transition-colors">Web Development</a></li>
-                            <li><a href="#services" className="hover:text-primary transition-colors">Mobile Apps</a></li>
+                            <li><a href="#services" className="hover:text-primary transition-colors">Mobile App Development</a></li>
                             <li><a href="#services" className="hover:text-primary transition-colors">Digital Marketing</a></li>
                             <li><a href="#services" className="hover:text-primary transition-colors">WhatsApp Business API</a></li>
                             <li><a href="#services" className="hover:text-primary transition-colors">RCS Messaging</a></li>
@@ -41,7 +48,9 @@ export default function Footer() {
                             <li><a href="#services" className="hover:text-primary transition-colors">Voice Solutions</a></li>
                             <li><a href="#services" className="hover:text-primary transition-colors">Chatbot</a></li>
                             <li><a href="#services" className="hover:text-primary transition-colors">Multi Channel Messaging</a></li>
+                            <li><a href="#services" className="hover:text-primary transition-colors">Backend & Cloud</a></li>
                             <li><a href="#services" className="hover:text-primary transition-colors">UI/UX Design</a></li>
+                            <li><a href="#services" className="hover:text-primary transition-colors">Social Media Ads</a></li>
                         </ul>
                     </div>
 
@@ -74,6 +83,12 @@ export default function Footer() {
                                 <Phone className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                                 <a href="tel:+917259404569" className="hover:text-primary transition-colors">
                                     +91 725940 4569
+                                </a>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <Phone className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                                <a href="tel:+919743504315" className="hover:text-primary transition-colors">
+                                    +91 974350 4315
                                 </a>
                             </li>
                             <li className="flex items-start gap-2">

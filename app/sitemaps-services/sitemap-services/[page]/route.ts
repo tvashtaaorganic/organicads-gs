@@ -1,5 +1,22 @@
 import { NextResponse } from 'next/server';
+import { unstable_cache } from 'next/cache';
 import turso from '@/lib/turso';
+
+// Cache the sitemap data fetch for 1 hour
+const getCachedSitemapData = unstable_cache(
+    async (limit: number, offset: number) => {
+        console.log(`!!! FETCHING SITEMAP DATA FROM DB (Limit: ${limit}, Offset: ${offset})`);
+        const result = await turso.execute({
+            sql: `SELECT slug, date FROM pages ORDER BY id ASC LIMIT ${limit} OFFSET ${offset}`
+        });
+        return result.rows;
+    },
+    ['sitemap-services-data'],
+    {
+        revalidate: 3600, // 1 hour shared cache
+        tags: ['sitemap']
+    }
+);
 
 export async function GET(
     request: Request,
@@ -24,23 +41,23 @@ export async function GET(
         const offset = (pageNum - 1) * pageSize;
         console.log('Route: Calculated offset:', offset);
 
-        // Fetch service slugs from the pages table with pagination using ASC for stability
-        // This ensures Page 1 always has IDs 1-1000, Page 2 has 1001-2000, etc.
-        const result = await turso.execute({
-            sql: `SELECT slug, date FROM pages ORDER BY id ASC LIMIT ${pageSize} OFFSET ${offset}`
-        });
+        // Use cached DB query
+        const rows = await getCachedSitemapData(pageSize, offset);
 
-        if (result.rows.length === 0) {
+        if (rows.length === 0) {
             return new NextResponse('Not Found', { status: 404 });
         }
 
         // Reverse the rows so the "latest" of this batch appears at the top of the XML
-        const rows = [...result.rows].reverse();
+        const reversedRows = [...rows].reverse();
 
-        const urls = rows.map((row) => {
+        // Static fallback date for pages without a date (prevents dynamic content on every request)
+        const fallbackDate = '2025-01-01T00:00:00.000Z';
+
+        const urls = reversedRows.map((row) => {
             const lastmod = row.date
                 ? new Date(row.date as string).toISOString()
-                : new Date().toISOString();
+                : fallbackDate;
 
             return `
       <url>

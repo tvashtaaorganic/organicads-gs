@@ -70,7 +70,7 @@ export default function ServiceStructuredData({
                 "name": `How long does it take to see results from ${serviceName}?`,
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "We deliver measurable results within 4 hours to 30 days depending on the service type and your specific requirements."
+                    "text": "We deliver measurable results within 4 days to 30 days depending on the service type and your specific requirements."
                 }
             }
         ]

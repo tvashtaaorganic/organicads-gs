@@ -18,6 +18,12 @@ async function generateStaticSitemap() {
 
     const staticPages = [
         '/',
+        '/#about',
+        '/#services',
+        '/#portfolio',
+        '/#process',
+        '/#pricing',
+        '/#contact',
         '/about',
         '/contact',
         '/services',

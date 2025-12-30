@@ -14,8 +14,8 @@ const features = [
     {
         icon: Rocket,
         title: 'Fast Delivery',
-        description: 'Speed without compromise. We deliver quality results in record time - often within 4 hours.',
-        highlights: ['4-Hour Response', 'Agile Workflow', 'Quick Turnaround']
+        description: 'Speed without compromise. We deliver quality results in record time - often within 4 days.',
+        highlights: ['4-Day Response', 'Agile Workflow', 'Quick Turnaround']
     },
     {
         icon: TrendingUp,

@@ -196,7 +196,7 @@ export function getServiceConfig(serviceName: string, name: string, locationin: 
     // SEO
     if (sn.includes('seo') || sn.includes('search engine')) {
         return {
-            badge: 'Top Google & Bing Rankings in 4 Hours!',
+            badge: 'Top Google & Bing Rankings in 4 Days!',
             badgeColor: 'bg-emerald-500/20 border-emerald-500/40 hover:bg-emerald-500/30',
             contentSections: [
                 {
@@ -351,7 +351,7 @@ export function getServiceConfig(serviceName: string, name: string, locationin: 
 
     // Default fallback
     return {
-        badge: 'Top Google & Bing Rankings in 4 Hours!',
+        badge: 'Top Google & Bing Rankings in 4 Days!',
         badgeColor: 'bg-primary/20 border-primary/40 hover:bg-primary/30',
         contentSections: [
             {
@@ -360,7 +360,7 @@ export function getServiceConfig(serviceName: string, name: string, locationin: 
             },
             {
                 title: `Why Choose Our ${name} Services?`,
-                content: `We specialize in providing top-tier ${name} services to businesses across ${cityin} and ${countryin}. With over 500+ happy clients and presence in 15+ countries, we deliver measurable results within 4 hours.`
+                content: `We specialize in providing top-tier ${name} services to businesses across ${cityin} and ${countryin}. With over 500+ happy clients and presence in 15+ countries, we deliver measurable results within 4 days.`
             },
             {
                 title: `Our ${name} Process`,

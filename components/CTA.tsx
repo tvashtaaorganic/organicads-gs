@@ -7,15 +7,17 @@ import { Phone, MessageCircle, FileText, X } from 'lucide-react';
 
 export default function CTA() {
     const [showForm, setShowForm] = useState(false);
-    const phoneNumber = '+917259404569';
-    const whatsappNumber = '917259404569';
+    const phoneNumber1 = '+917259404569';
+    const whatsappNumber1 = '917259404569';
+    const phoneNumber2 = '+919743504315';
+    const whatsappNumber2 = '919743504315';
 
-    const handleWhatsApp = () => {
-        window.open(`https://wa.me/${whatsappNumber}`, '_blank');
+    const handleWhatsApp = (number: string) => {
+        window.open(`https://wa.me/${number}`, '_blank');
     };
 
-    const handleCall = () => {
-        window.location.href = `tel:${phoneNumber}`;
+    const handleCall = (number: string) => {
+        window.location.href = `tel:${number}`;
     };
 
     const handleRequestQuote = () => {
@@ -43,7 +45,7 @@ export default function CTA() {
     }, [showForm]);
 
     return (
-        <section className="py-20 px-4 relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10">
+        <section id="contact" className="py-20 px-4 relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10">
             <div className="max-w-4xl mx-auto text-center relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -55,54 +57,84 @@ export default function CTA() {
                         Ready to <span className="gradient-text">Elevate Your Digital Presence?</span>
                     </h2>
                     <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                        Achieve top Google & Bing rankings for your website in just 4 hours
+                        Achieve top Google & Bing rankings for your website in just 4 days
                     </p>
                 </motion.div>
 
                 <motion.div
-                    className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                    className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                 >
-                    <div className="flex flex-col items-center gap-2">
-                        <Button
-                            size="lg"
-                            onClick={handleWhatsApp}
-                            className="bg-[#25D366] hover:bg-[#20BA5A] text-white px-8 py-6 text-lg w-full sm:w-auto"
-                        >
-                            <MessageCircle className="mr-2 w-5 h-5" />
-                            WhatsApp Now
-                        </Button>
-                        <span className="text-sm text-muted-foreground">{phoneNumber}</span>
+                    {/* Contact Option 1 */}
+                    <div className="flex flex-col gap-3 p-6 bg-card rounded-xl border border-border">
+                        <h3 className="font-semibold text-lg mb-2">Contact Number 1</h3>
+                        <div className="flex flex-col gap-2">
+                            <Button
+                                size="lg"
+                                onClick={() => handleWhatsApp(whatsappNumber1)}
+                                className="bg-[#25D366] hover:bg-[#20BA5A] text-white"
+                            >
+                                <MessageCircle className="mr-2 w-5 h-5" />
+                                WhatsApp
+                            </Button>
+                            <Button
+                                size="lg"
+                                onClick={() => handleCall(phoneNumber1)}
+                                variant="outline"
+                                className="border-2 border-foreground bg-foreground text-background hover:bg-foreground/90"
+                            >
+                                <Phone className="mr-2 w-5 h-5" />
+                                Call Now
+                            </Button>
+                            <span className="text-sm text-muted-foreground font-medium">{phoneNumber1}</span>
+                        </div>
                     </div>
 
-                    <div className="flex flex-col items-center gap-2">
-                        <Button
-                            size="lg"
-                            onClick={handleCall}
-                            variant="outline"
-                            className="border-2 border-foreground bg-foreground text-background hover:bg-foreground/90 px-8 py-6 text-lg w-full sm:w-auto"
-                        >
-                            <Phone className="mr-2 w-5 h-5" />
-                            Call Now
-                        </Button>
-                        <span className="text-sm text-muted-foreground">{phoneNumber}</span>
+                    {/* Contact Option 2 */}
+                    <div className="flex flex-col gap-3 p-6 bg-card rounded-xl border border-border">
+                        <h3 className="font-semibold text-lg mb-2">Contact Number 2</h3>
+                        <div className="flex flex-col gap-2">
+                            <Button
+                                size="lg"
+                                onClick={() => handleWhatsApp(whatsappNumber2)}
+                                className="bg-[#25D366] hover:bg-[#20BA5A] text-white"
+                            >
+                                <MessageCircle className="mr-2 w-5 h-5" />
+                                WhatsApp
+                            </Button>
+                            <Button
+                                size="lg"
+                                onClick={() => handleCall(phoneNumber2)}
+                                variant="outline"
+                                className="border-2 border-foreground bg-foreground text-background hover:bg-foreground/90"
+                            >
+                                <Phone className="mr-2 w-5 h-5" />
+                                Call Now
+                            </Button>
+                            <span className="text-sm text-muted-foreground font-medium">{phoneNumber2}</span>
+                        </div>
                     </div>
+                </motion.div>
 
-                    <div className="flex flex-col items-center gap-2">
-                        <Button
-                            size="lg"
-                            onClick={handleRequestQuote}
-                            variant="outline"
-                            className="border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg w-full sm:w-auto"
-                        >
-                            <FileText className="mr-2 w-5 h-5" />
-                            Request Quote
-                        </Button>
-                        <span className="text-sm text-muted-foreground">Get Quote in 4 Hours</span>
-                    </div>
+                {/* Request Quote Button */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                >
+                    <Button
+                        size="lg"
+                        onClick={handleRequestQuote}
+                        className="border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg"
+                    >
+                        <FileText className="mr-2 w-5 h-5" />
+                        Request Quote
+                    </Button>
+                    <p className="text-sm text-muted-foreground mt-2">Get Quote in 4 Hours</p>
                 </motion.div>
 
                 {/* Embedded Form */}

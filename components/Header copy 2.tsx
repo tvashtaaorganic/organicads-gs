@@ -63,7 +63,7 @@ export default function Header() {
         : 'https://lh3.googleusercontent.com/pw/AP1GczN48g7CPs40h-1mbCuQ7zp2qjq3yF0RQzA9UlEdG2735ZcKyi5jOr5_45qXba5mfwgiCzoBEZCvMhssQAlRaqjovMbPE8j45XeCmryB_d6vME0iPOpjaY5nqI-57HIs6Kmu14Yp2DmvYaNA-7-e5R_F=w1280-h367-s-no-gm?authuser=0';
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl shadow-sm">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
@@ -81,15 +81,16 @@ export default function Header() {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center flex-1 justify-center">
-                        <div className="flex items-center space-x-1 xl:space-x-2 bg-gray-100 dark:bg-gray-800 rounded-full px-2 py-1.5 ">
+                        <div className="flex items-center space-x-1 xl:space-x-2 bg-muted/50 rounded-full px-2 py-1.5">
                             {menuItems.map((item) => (
                                 <a
                                     key={item.label}
                                     href={item.href}
-                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeSection === item.id
-                                        ? 'bg-white text-foreground shadow-sm'
-                                        : 'text-muted-foreground hover:text-foreground hover:bg-white/50'
-                                        }`}
+                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                                        activeSection === item.id
+                                            ? 'bg-background text-foreground shadow-sm'
+                                            : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
+                                    }`}
                                 >
                                     {item.label}
                                 </a>
