@@ -95,7 +95,9 @@ export function middleware(request: NextRequest) {
         });
     }
 
-    // Method 4: Check IP address (fallback)
+    // Method 4: IP-based blocking DISABLED (causes false positives with Indian IPs)
+    // Only rely on accurate geo-headers from Cloudflare/Vercel
+    /*
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim()
         || request.headers.get('x-real-ip')
         || (request as any).ip
@@ -111,6 +113,7 @@ export function middleware(request: NextRequest) {
             }
         });
     }
+    */
 
     // ============================================
     // ✅ ALLOWED TRAFFIC - Continue processing
