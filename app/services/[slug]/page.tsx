@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { cache } from 'react';
-import { unstable_cache } from 'next/cache';
 import DMService from '@/components/services/dm/page';
 import SEOService from '@/components/services/seo/page';
 import WhatsAppService from '@/components/services/whatsapp/page';
@@ -15,36 +14,12 @@ import RCSService from '@/components/services/rcs/page';
 import SocialMediaAdsService from '@/components/services/social-media-ads/page';
 import UIUXService from '@/components/services/uiux/page';
 import VoiceService from '@/components/services/voice/page';
-import turso from '@/lib/turso';
-
-// Cache the database query for 1 hour (3600 seconds)
-const getCachedPageData = unstable_cache(
-    async (slug: string) => {
-        console.log('!!! FETCHING DATA FROM DATABASE FOR SLUG:', slug);
-
-        const result = await turso.execute({
-            sql: 'SELECT * FROM pages WHERE slug = ? LIMIT 1',
-            args: [slug],
-        });
-
-        console.log('!!! QUERY RESULT ROWS:', result.rows.length);
-
-        if (result.rows.length === 0) {
-            return null;
-        }
-
-        return result.rows[0];
-    },
-    ['service-page'], // Cache key prefix
-    {
-        revalidate: 3600, // Cache for 1 hour
-        tags: ['service-pages'], // Tag for cache invalidation
-    }
-);
+import { getPageBySlug } from '@/lib/googleSheets';
 
 // Use React cache to deduplicate requests within the same render
 const fetchPageData = cache(async (slug: string) => {
-    return await getCachedPageData(slug);
+    console.log('!!! FETCHING PAGE DATA FOR SLUG:', slug);
+    return await getPageBySlug(slug);
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -80,28 +55,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     console.log('!!! RENDERING PAGE FOR:', slug);
-    const data = await fetchPageData(slug);
+    const service = await fetchPageData(slug);
 
-    if (!data) {
+    if (!service) {
         console.log('!!! NO DATA FOUND FOR PAGE');
         return notFound();
     }
 
-    const service = {
-        id: data.id as number,
-        name: data.name as string,
-        locationin: data.locationin as string,
-        cityin: data.cityin as string,
-        countryin: data.countryin as string,
-        descpost: data.descpost as string,
-        cat: data.cat as string,
-        titletag: data.titletag as string,
-        descriptiontag: data.descriptiontag as string,
-        keywordstag: data.keywordstag as string,
-        slug: data.slug as string,
-        servicename: data.servicename as string,
-        date: data.date as string,
-    };
 
     // Render the correct component based on servicename
     const servicename = service.servicename.toLowerCase();
@@ -137,6 +97,3 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     // Default fallback
     return <SEOService service={service} />;
 }
-
-// Enable static generation for better performance
-export const revalidate = 3600; // Revalidate every hour

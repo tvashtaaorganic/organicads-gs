@@ -24,10 +24,6 @@ async function generateStaticSitemap() {
         '/#process',
         '/#pricing',
         '/#contact',
-        '/about',
-        '/contact',
-        '/services',
-        // Add more static pages as needed
     ];
 
     const urls = staticPages.map((path) => ({

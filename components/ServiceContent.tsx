@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import type { PageData } from '@/lib/turso';
+import type { PageData } from '@/lib/googleSheets';
 import { getServiceConfig } from '@/lib/serviceContent';
 
 interface ServiceContentProps {

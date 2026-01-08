@@ -77,22 +77,26 @@ export default function RCSService({ service }: RCSServiceProps) {
             <section className="relative min-h-[60vh] flex items-center justify-center px-4 pt-24 pb-12 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-background to-cyan-500/10" />
 
-                <div className="relative z-10 max-w-6xl mx-auto text-center">
-                    <div className="flex justify-center mb-6">
-                        <Breadcrumb items={breadcrumbItems} />
+                <div className="relative z-10 w-full max-w-6xl mx-auto text-center">
+                    <div className="flex justify-center mb-6 w-full overflow-hidden">
+                        <div className="max-w-full">
+                            <Breadcrumb items={breadcrumbItems} />
+                        </div>
                     </div>
 
-                    <ServiceBadge
-                        servicename={service.servicename}
-                        name={service.name}
-                        locationin={service.locationin}
-                        cityin={service.cityin}
-                        countryin={service.countryin}
-                    />
+                    <div className="flex justify-center mb-6">
+                        <ServiceBadge
+                            servicename={service.servicename}
+                            name={service.name}
+                            locationin={service.locationin}
+                            cityin={service.cityin}
+                            countryin={service.countryin}
+                        />
+                    </div>
 
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-normal md:leading-tight px-2">
-                        <span className="gradient-text block mb-2 md:mb-0">{service.name}</span>
-                        <span className="text-foreground block md:inline">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight px-2 sm:px-4">
+                        <span className="gradient-text block mb-3">{service.name}</span>
+                        <span className="text-foreground block text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
                             in {service.locationin}, {service.cityin}, {service.countryin}
                         </span>
                     </h1>

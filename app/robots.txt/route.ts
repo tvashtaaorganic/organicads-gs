@@ -73,6 +73,81 @@ User-agent: Gigabot
 User-agent: MSNBot-Media
 User-agent: Robozilla
 Disallow: /
+
+# ========================================
+# BLOCK AI SCRAPERS AND TRAINING BOTS
+# ========================================
+
+# OpenAI GPTBot
+User-agent: GPTBot
+Disallow: /
+
+# Common Crawl
+User-agent: CCBot
+Disallow: /
+
+# Anthropic AI
+User-agent: anthropic-ai
+User-agent: Claude-Web
+Disallow: /
+
+# Google Extended (AI training)
+User-agent: Google-Extended
+Disallow: /
+
+# Omgili bot
+User-agent: omgili
+User-agent: omgilibot
+Disallow: /
+
+# ========================================
+# BLOCK AGGRESSIVE SEO & SCRAPER BOTS
+# ========================================
+
+# SemrushBot
+User-agent: SemrushBot
+Disallow: /
+
+# AhrefsBot
+User-agent: AhrefsBot
+Disallow: /
+
+# MJ12bot (Majestic)
+User-agent: MJ12bot
+Disallow: /
+
+# DotBot
+User-agent: DotBot
+Disallow: /
+
+# Blexbot
+User-agent: BLEXBot
+Disallow: /
+
+# DataForSeoBot
+User-agent: DataForSeoBot
+Disallow: /
+
+# ========================================
+# BLOCK OTHER BANDWIDTH-HEAVY BOTS
+# ========================================
+
+# Archive.org
+User-agent: ia_archiver
+Disallow: /
+
+# Various scrapers
+User-agent: SiteSnagger
+User-agent: WebCopier
+User-agent: WebZIP
+User-agent: HTTrack
+User-agent: Teleport
+User-agent: TeleportPro
+User-agent: WebStripper
+User-agent: WebSauger
+User-agent: WebReaper
+User-agent: Offline Explorer
+Disallow: /
 `;
 
     return new NextResponse(robotsTxt, {

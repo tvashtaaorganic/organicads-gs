@@ -1,44 +1,16 @@
 import { NextResponse } from 'next/server';
-import { unstable_cache } from 'next/cache';
-import turso from '@/lib/turso';
-
-// Cache the total count query for 1 hour
-const getCachedTotalCount = unstable_cache(
-    async () => {
-        console.log('!!! SITEMAP INDEX: FETCHING TOTAL COUNT FROM DATABASE');
-        const result = await turso.execute({
-            sql: 'SELECT COUNT(*) as total FROM pages'
-        });
-        const total = result.rows[0].total as number;
-        console.log('!!! SITEMAP INDEX: TOTAL PAGES:', total);
-        return total;
-    },
-    ['sitemap-index-count'],
-    {
-        revalidate: 3600, // Cache for 1 hour
-        tags: ['sitemap-index'],
-    }
-);
-
-// Cache the lastmod date so it only updates when cache revalidates
-const getCachedLastModDate = unstable_cache(
-    async () => {
-        return new Date().toISOString();
-    },
-    ['sitemap-index-lastmod'],
-    {
-        revalidate: 3600, // Cache for 1 hour
-        tags: ['sitemap-index'],
-    }
-);
+import { getTotalCount } from '@/lib/googleSheets';
 
 export async function GET() {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://organicads.in';
 
     try {
-        // Use cached count query and cached lastmod date
-        const total = await getCachedTotalCount();
-        const lastModDate = await getCachedLastModDate();
+        // Use cached count from Google Sheets
+        const total = await getTotalCount();
+        console.log('!!! SITEMAP INDEX: TOTAL PAGES:', total);
+
+        // Use a static date to prevent dynamic content generation
+        const lastModDate = '2025-01-08T00:00:00.000Z';
         const pageSize = 1000; // Number of URLs per sitemap
         const totalPages = Math.ceil(total / pageSize);
 
@@ -62,7 +34,7 @@ export async function GET() {
             status: 200,
             headers: {
                 'Content-Type': 'application/xml',
-                'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate',
+                'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
             },
         });
     } catch (error) {

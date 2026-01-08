@@ -94,12 +94,13 @@ export default function ServiceCustomCard({ serviceName }: ServiceCustomCardProp
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-4 mb-16">
-            <div className="bg-card border border-border rounded-xl p-8 shadow-lg text-center">
-                <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                    Get Customized {serviceName} On Request, Call Now: {phoneNumber}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-16">
+            <div className="bg-card border border-border rounded-xl p-4 sm:p-6 md:p-8 shadow-lg text-center">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 break-words leading-tight">
+                    Get Customized {serviceName} On Request, Call Now:{' '}
+                    <span className="block sm:inline mt-2 sm:mt-0">{phoneNumber}</span>
                 </h2>
-                <p className="text-muted-foreground mb-8 max-w-7xl mx-auto leading-relaxed">
+                <p className="text-sm sm:text-base text-muted-foreground mb-8 max-w-7xl mx-auto leading-relaxed">
                     {getDescription()}
                 </p>
 
