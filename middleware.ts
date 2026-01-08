@@ -119,7 +119,7 @@ export function middleware(request: NextRequest) {
     // ✅ ALLOWED TRAFFIC - Continue processing
     // ============================================
 
-    const host = request.headers.get('host') || 'organicads.in';
+    const host = request.headers.get('host') || 'organicads.vercel.app';
     const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
     const baseUrl = `${protocol}://${host}`;
 

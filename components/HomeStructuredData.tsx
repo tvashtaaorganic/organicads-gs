@@ -6,7 +6,7 @@ export default function HomeStructuredData() {
         "@type": "Organization",
         "name": "Organic Ads Technologies",
         "alternateName": "OrganicAds",
-        "url": "https://www.organicads.in",
+        "url": "https://www.organicads.vercel.app",
         "logo": "https://res.cloudinary.com/s2ucdn/image/upload/v1734515561/organicads-logo_n5yg79.png",
         "description": "Leading digital marketing and business messaging solutions provider in Bangalore, offering web development, SEO, WhatsApp Business API, RCS messaging, bulk SMS, and chatbot services.",
         "address": {
@@ -47,10 +47,10 @@ export default function HomeStructuredData() {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Organic Ads Technologies",
-        "url": "https://www.organicads.in",
+        "url": "https://www.organicads.vercel.app",
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://www.organicads.in/search?q={search_term_string}",
+            "target": "https://www.organicads.vercel.app/search?q={search_term_string}",
             "query-input": "required name=search_term_string"
         }
     };
@@ -60,8 +60,8 @@ export default function HomeStructuredData() {
         "@type": "LocalBusiness",
         "name": "Organic Ads Technologies",
         "image": "https://res.cloudinary.com/s2ucdn/image/upload/v1734515561/organicads-logo_n5yg79.png",
-        "@id": "https://www.organicads.in",
-        "url": "https://www.organicads.in",
+        "@id": "https://www.organicads.vercel.app",
+        "url": "https://www.organicads.vercel.app",
         "telephone": "+91-7259404569",
         "priceRange": "$$",
         "address": {
@@ -213,7 +213,7 @@ export default function HomeStructuredData() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.organicads.in"
+                "item": "https://www.organicads.vercel.app"
             }
         ]
     };

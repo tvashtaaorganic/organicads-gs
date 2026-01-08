@@ -21,7 +21,7 @@ export default function Footer() {
                             RCS, Bulk SMS) and AI-powered chatbots, we deliver end-to-end digital transformation for businesses
                             of all sizes.
                         </p>
-                        
+
                         <div className="flex gap-3">
                             <a href="https://www.facebook.com/organicads1/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors">
                                 <Facebook className="w-5 h-5 text-primary" />
@@ -93,9 +93,14 @@ export default function Footer() {
                             </li>
                             <li className="flex items-start gap-2">
                                 <Mail className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                                <a href="mailto:contact@organicads.in" className="hover:text-primary transition-colors">
-                                    contact@organicads.in
-                                </a>
+                                <div className="flex flex-col gap-1">
+                                    <a href="mailto:contact@organicads.in" className="hover:text-primary transition-colors">
+                                        contact@organicads.in
+                                    </a>
+                                    <a href="mailto:organicads1@gmail.com" className="hover:text-primary transition-colors">
+                                        organicads1@gmail.com
+                                    </a>
+                                </div>
                             </li>
                         </ul>
                     </div>

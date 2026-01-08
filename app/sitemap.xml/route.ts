@@ -14,7 +14,7 @@ function escapeXml(unsafe: string): string {
 }
 
 async function generateStaticSitemap() {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://organicads.in';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://organicads.vercel.app';
 
     const staticPages = [
         '/',

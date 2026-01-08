@@ -28,19 +28,19 @@ export default function ServiceStructuredData({
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.organicads.in"
+                "item": "https://www.organicads.vercel.app"
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Services",
-                "item": "https://www.organicads.in/#services"
+                "item": "https://www.organicads.vercel.app/#services"
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": `${serviceName} in ${cityin}, ${countryin}`,
-                "item": `https://www.organicads.in/services/${slug}`
+                "item": `https://www.organicads.vercel.app/services/${slug}`
             }
         ]
     };
@@ -80,7 +80,7 @@ export default function ServiceStructuredData({
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Organic Ads Technologies",
-        "url": "https://www.organicads.in",
+        "url": "https://www.organicads.vercel.app",
         "logo": "https://res.cloudinary.com/s2ucdn/image/upload/v1734515561/organicads-logo_n5yg79.png",
         "contactPoint": {
             "@type": "ContactPoint",

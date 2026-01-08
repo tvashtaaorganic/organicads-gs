@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getTotalCount } from '@/lib/googleSheets';
 
 export async function GET() {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://organicads.in';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://organicads.vercel.app';
 
     try {
         // Use cached count from Google Sheets

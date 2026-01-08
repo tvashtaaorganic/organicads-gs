@@ -6,7 +6,7 @@ export async function GET(
     props: { params: Promise<{ page: string }> }
 ) {
     const params = await props.params;
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://organicads.in';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://organicads.vercel.app';
     const { page } = params;
     console.log('Route: Received page param:', page);
 
