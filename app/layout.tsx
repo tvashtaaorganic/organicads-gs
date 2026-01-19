@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Script from "next/script";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Organic Ads Technologies - Web Development, Digital Marketing & Business Messaging Solutions in Bangalore",
@@ -57,6 +51,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Google Sans Font */}
+        <link href="https://fonts.googleapis.com/css?family=Google+Sans+Text:400,500,700,400i,500i,700i|Google+Sans:400,500,700|Google+Sans+Display:400,500,700|Product+Sans:400&lang=en" rel="stylesheet" />
+
         {/* Google Tag Manager */}
         <Script id="gtm-script" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -81,7 +78,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${inter.variable} font-sans antialiased`}
+        className={`font-sans antialiased`}
         suppressHydrationWarning
       >
         {/* Google Tag Manager (noscript) */}

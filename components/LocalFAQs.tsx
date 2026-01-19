@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ChevronDown, HelpCircle, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Script from 'next/script';
 
 interface LocalFAQsProps {
     serviceName: string;
@@ -46,8 +47,26 @@ export default function LocalFAQs({ serviceName, cityin, servicetype = 'website 
         }
     ];
 
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faqs.map(faq => ({
+            "@type": "Question",
+            "name": faq.question,
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.answer
+            }
+        }))
+    };
+
     return (
         <section className="py-20 px-4 bg-gray-50 dark:bg-background border-t border-gray-200 dark:border-border" id="local-faqs">
+            <Script
+                id={`faq-schema-${cityin?.replace(/\s+/g, '-').toLowerCase()}`}
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
                     <div className="flex justify-center mb-4">
