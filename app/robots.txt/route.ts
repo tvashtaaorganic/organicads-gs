@@ -75,30 +75,11 @@ User-agent: Robozilla
 Disallow: /
 
 # ========================================
-# BLOCK AI SCRAPERS AND TRAINING BOTS
+# ALLOWING AI BOTS FOR AEO/GEO (Answer Engine Optimization)
 # ========================================
 
-# OpenAI GPTBot
-User-agent: GPTBot
-Disallow: /
-
-# Common Crawl
-User-agent: CCBot
-Disallow: /
-
-# Anthropic AI
-User-agent: anthropic-ai
-User-agent: Claude-Web
-Disallow: /
-
-# Google Extended (AI training)
-User-agent: Google-Extended
-Disallow: /
-
-# Omgili bot
-User-agent: omgili
-User-agent: omgilibot
-Disallow: /
+# OpenAI, Google Extended, and others are allowed by default via User-agent: *
+# We removed specific blocks to ensure visibility in AI Search results.
 
 # ========================================
 # BLOCK AGGRESSIVE SEO & SCRAPER BOTS

@@ -14,9 +14,9 @@ const solutions = [
             'Dynamic Pricing',
             'Multi-payment Options'
         ],
-        bg: 'bg-emerald-50',
-        accent: 'text-emerald-600',
-        button: 'bg-[#1a1a1a] text-white'
+        bg: 'bg-emerald-50 dark:bg-emerald-950/20',
+        accent: 'text-emerald-600 dark:text-emerald-400',
+        button: 'bg-[#1a1a1a] text-white dark:bg-white dark:text-black'
     },
     {
         title: 'E-commerce Platform',
@@ -27,9 +27,9 @@ const solutions = [
             'Inventory Management',
             'Analytics Dashboard'
         ],
-        bg: 'bg-orange-50',
-        accent: 'text-orange-600',
-        button: 'bg-[#1a1a1a] text-white'
+        bg: 'bg-orange-50 dark:bg-orange-950/20',
+        accent: 'text-orange-600 dark:text-orange-400',
+        button: 'bg-[#1a1a1a] text-white dark:bg-white dark:text-black'
     },
     {
         title: 'Food Delivery Platform',
@@ -40,9 +40,9 @@ const solutions = [
             'Delivery Boy Apps',
             'Rating & Review System'
         ],
-        bg: 'bg-rose-50',
-        accent: 'text-rose-600',
-        button: 'bg-[#1a1a1a] text-white'
+        bg: 'bg-rose-50 dark:bg-rose-950/20',
+        accent: 'text-rose-600 dark:text-rose-400',
+        button: 'bg-[#1a1a1a] text-white dark:bg-white dark:text-black'
     },
     {
         title: 'Grocery Platform',
@@ -53,9 +53,9 @@ const solutions = [
             'Subscription Services',
             'Quality Assurance'
         ],
-        bg: 'bg-lime-50',
-        accent: 'text-lime-600',
-        button: 'bg-[#1a1a1a] text-white'
+        bg: 'bg-lime-50 dark:bg-lime-950/20',
+        accent: 'text-lime-600 dark:text-lime-400',
+        button: 'bg-[#1a1a1a] text-white dark:bg-white dark:text-black'
     },
     {
         title: 'On-Demand Services',
@@ -66,9 +66,9 @@ const solutions = [
             'Quality Control',
             'Service Tracking'
         ],
-        bg: 'bg-blue-50',
-        accent: 'text-blue-600',
-        button: 'bg-[#1a1a1a] text-white'
+        bg: 'bg-blue-50 dark:bg-blue-950/20',
+        accent: 'text-blue-600 dark:text-blue-400',
+        button: 'bg-[#1a1a1a] text-white dark:bg-white dark:text-black'
     },
     {
         title: 'Quick Commerce Platform',
@@ -79,9 +79,9 @@ const solutions = [
             'Master Admin Panel',
             'Web Platform'
         ],
-        bg: 'bg-slate-50',
-        accent: 'text-slate-600',
-        button: 'bg-[#1a1a1a] text-white'
+        bg: 'bg-slate-50 dark:bg-slate-950/20',
+        accent: 'text-slate-600 dark:text-slate-400',
+        button: 'bg-[#1a1a1a] text-white dark:bg-white dark:text-black'
     }
 ];
 
@@ -191,8 +191,8 @@ export default function PlatformSolutions() {
                                         whileTap={item.offset === 0 ? { scale: 0.98 } : {}}
                                         onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                                         className={`w-full py-4 px-6 rounded-xl font-bold text-sm uppercase tracking-wide transition-all ${item.offset === 0
-                                                ? 'bg-[#1a1a1a] text-white shadow-lg hover:bg-black'
-                                                : 'bg-white/50 text-muted-foreground cursor-default'
+                                            ? 'bg-[#1a1a1a] text-white shadow-lg hover:bg-black'
+                                            : 'bg-white/50 text-muted-foreground cursor-default'
                                             }`}
                                     >
                                         Book Free Consultation

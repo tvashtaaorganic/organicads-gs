@@ -20,6 +20,13 @@ import WorkProcess from '@/components/WorkProcess';
 import PricingSection from '@/components/PricingSection';
 import PlatformSolutions from '@/components/PlatformSolutions';
 import Testimonials from '@/components/Testimonials';
+import LocalIntroSection from '@/components/LocalIntroSection';
+import WhyChooseUsLocal from '@/components/WhyChooseUsLocal';
+import LocalAreasServed from '@/components/LocalAreasServed';
+import LocalTestimonial from '@/components/LocalTestimonial';
+import LocalFAQs from '@/components/LocalFAQs';
+import TrustIndicators from '@/components/TrustIndicators';
+import Image from 'next/image';
 
 interface WhatsAppServiceProps {
     service: {
@@ -36,6 +43,10 @@ interface WhatsAppServiceProps {
         slug: string;
         servicename: string;
         date: string;
+        citytype?: string;
+        businesstypes?: string;
+        nearbyareas?: string;
+        landmarks?: string;
     };
 }
 
@@ -74,39 +85,69 @@ export default function WhatsAppService({ service }: WhatsAppServiceProps) {
             />
             <Header />
 
-            <section className="relative min-h-[60vh] flex items-center justify-center px-4 pt-24 pb-12 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10" />
+            {/* Premium Hero Section */}
+            <section className="relative pt-24 pb-8 px-4 overflow-hidden bg-white dark:bg-background">
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
 
-                <div className="relative z-10 w-full max-w-6xl mx-auto text-center">
-                    <div className="flex justify-center mb-6 w-full overflow-hidden">
-                        <div className="max-w-full">
-                            <Breadcrumb items={breadcrumbItems} />
+                <div className="relative z-10 w-full max-w-7xl mx-auto">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        {/* Left: Text Content */}
+                        <div className="text-center lg:text-left">
+                            <div className="flex justify-center lg:justify-start mb-6">
+                                <Breadcrumb items={breadcrumbItems} />
+                            </div>
+
+                            <div className="flex justify-center lg:justify-start mb-6">
+                                <ServiceBadge
+                                    servicename={service.servicename}
+                                    name={service.name}
+                                    locationin={service.locationin}
+                                    cityin={service.cityin}
+                                    countryin={service.countryin}
+                                />
+                            </div>
+
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-gray-900 dark:text-gray-100">
+                                {service.name} <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400">
+                                    in {service.locationin}, {service.cityin}
+                                </span>
+                            </h1>
+
+                            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto lg:mx-0 leading-relaxed mb-8">
+                                {service.descpost === 'domestic'
+                                    ? `Connecting businesses with customers across India via automated ${service.name}.`
+                                    : `Empowering global customer engagement with seamless international ${service.name} solutions.`
+                                }
+                            </p>
+
+                            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-12">
+                                <a href="#contact" className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-all shadow-lg hover:shadow-blue-500/25 text-lg">
+                                    Get Custom Quote
+                                </a>
+                                <a href="#portfolio" className="px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-full font-semibold hover:border-gray-300 dark:hover:border-gray-600 transition-all text-lg">
+                                    View Portfolio
+                                </a>
+                            </div>
+
+                            <div className="flex justify-center lg:justify-start">
+                                <TrustIndicators serviceName={service.name} cityin={service.cityin} />
+                            </div>
+                        </div>
+
+                        {/* Right: Image */}
+                        <div className="hidden lg:block">
+                            <div className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300">
+                                <Image
+                                    src="https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=800&q=80"
+                                    alt={`${service.name} in ${service.cityin}`}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                            </div>
                         </div>
                     </div>
-
-                    <div className="flex justify-center mb-6">
-                        <ServiceBadge
-                            servicename={service.servicename}
-                            name={service.name}
-                            locationin={service.locationin}
-                            cityin={service.cityin}
-                            countryin={service.countryin}
-                        />
-                    </div>
-
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight px-2 sm:px-4">
-                        <span className="gradient-text block mb-3">{service.name}</span>
-                        <span className="text-foreground block text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
-                            in {service.locationin}, {service.cityin}, {service.countryin}
-                        </span>
-                    </h1>
-
-                    <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                        {service.descpost === 'domestic'
-                            ? `Connecting businesses with customers across India via automated ${service.name}.`
-                            : `Empowering global customer engagement with seamless international ${service.name} solutions.`
-                        }
-                    </p>
                 </div>
             </section>
 
@@ -116,12 +157,44 @@ export default function WhatsAppService({ service }: WhatsAppServiceProps) {
             <AboutSection />
             <EnhancedPortfolio />
             <WorkProcess />
+
+            <LocalIntroSection
+                locationin={service.locationin}
+                cityin={service.cityin}
+                businesstypes={service.businesstypes}
+                landmarks={service.landmarks}
+                serviceName={service.name}
+            />
+
+            <WhyChooseUsLocal
+                serviceName={service.name}
+                cityin={service.cityin}
+            />
+
+            <LocalAreasServed
+                cityin={service.cityin}
+                nearbyareas={service.nearbyareas}
+                serviceName={service.name}
+                citytype={service.citytype}
+            />
+
             <SEOResults />
             <Services />
             <PlatformSolutions />
             <Features />
             <PricingSection />
-            <Testimonials />
+
+            <LocalTestimonial
+                serviceName={service.name}
+                cityin={service.cityin}
+                citytype={service.citytype}
+            />
+
+            <LocalFAQs
+                serviceName={service.name}
+                cityin={service.cityin}
+                servicetype={service.servicename}
+            />
             <CTA />
             <Footer />
             <BackToTop />

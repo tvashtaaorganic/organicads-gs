@@ -14,6 +14,12 @@ export interface PageData {
     slug: string;
     servicename: string;
     date: string;
+    // New fields for programmatic local SEO
+    parentslug?: string;
+    citytype?: string;
+    businesstypes?: string;
+    nearbyareas?: string;
+    landmarks?: string;
 }
 
 const GOOGLE_SHEET_ID = '1alHg2OqxjX-m8J7Z6bxeJ38JGCT3paK1oDu1sP1D76Y';
@@ -27,7 +33,7 @@ async function fetchGoogleSheetData(): Promise<PageData[]> {
 
     try {
         const response = await fetch(url, {
-            next: { revalidate: 86400 } // Cache for 24 hours at fetch level
+            next: { revalidate: 86400 } // Cache for 24 hours
         });
 
         if (!response.ok) {
@@ -35,6 +41,7 @@ async function fetchGoogleSheetData(): Promise<PageData[]> {
         }
 
         const text = await response.text();
+        // console.log('!!! GOOGLE SHEETS RAW RESPONSE LENGTH:', text.length); // Commented out debug log
 
         // Google Sheets returns JSONP, we need to extract the JSON
         const jsonString = text.substring(47).slice(0, -2);
@@ -67,6 +74,12 @@ async function fetchGoogleSheetData(): Promise<PageData[]> {
                 slug: cells[10]?.v || '',
                 servicename: cells[11]?.v || '',
                 date: cells[12]?.v || new Date().toISOString(),
+                // New local SEO fields
+                parentslug: cells[13]?.v || '',
+                citytype: cells[14]?.v || '',
+                businesstypes: cells[15]?.v || '',
+                nearbyareas: cells[16]?.v || '',
+                landmarks: cells[17]?.v || '',
             });
         }
 
@@ -116,6 +129,91 @@ export async function getPageBySlug(slug: string): Promise<PageData | null> {
         return page || null;
     } catch (error) {
         console.error('Error fetching page by slug:', error);
+        return null;
+    }
+}
+
+// Get page by hierarchy (parent/city)
+// Get page by hierarchy (parent/city)
+export async function getPageByHierarchy(parentSlug: string, city: string): Promise<PageData | null> {
+    try {
+        const allPages = await getAllPages();
+        const normalizedCity = city.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+        // Filter all pages that match this city
+        const cityPages = allPages.filter(p => {
+            const parentMatches = p.parentslug === parentSlug;
+            const sheetCityNormalized = p.cityin?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+            // Match via cityin column OR slug endpoint
+            const cityMatches = sheetCityNormalized === normalizedCity;
+            const slugMatches = p.slug.endsWith(`-${normalizedCity}`) || p.slug.includes(normalizedCity);
+
+            return parentMatches && (cityMatches || slugMatches);
+        });
+
+        if (cityPages.length === 0) {
+            console.log(`!!! NO HIERARCHICAL PAGE FOUND FOR: ${parentSlug}/${city}`);
+            return null;
+        }
+
+        // Priority 1: Find page where Location IS the City (e.g. Location: Mysore, City: Mysore)
+        // This ensures /services/digital-marketing/mysore loads the "Main" Mysore page, not an area like "Chamundi Hill".
+        const mainCityPage = cityPages.find(p => {
+            const loc = p.locationin?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            return loc === normalizedCity;
+        });
+
+        if (mainCityPage) {
+            console.log(`!!! FOUND MAIN CITY PAGE FOR: ${parentSlug}/${city}`);
+            return mainCityPage;
+        }
+
+        // Priority 2: Fallback to the first matching page
+        console.log(`!!! FOUND FIRST AVAILABLE AREA PAGE FOR CITY: ${parentSlug}/${city}`);
+        return cityPages[0];
+
+    } catch (error) {
+        console.error('Error fetching page by hierarchy:', error);
+        return null; // Closing brace match
+    }
+}
+
+
+// Get page by hierarchy with area (parent/city/area)
+export async function getPageByHierarchyWithArea(parentSlug: string, city: string, area: string): Promise<PageData | null> {
+    try {
+        const allPages = await getAllPages();
+
+        const normalizedCity = city.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        const normalizedArea = area.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+        const page = allPages.find(p => {
+            const parentMatches = p.parentslug === parentSlug;
+
+            // Check city
+            const sheetCityNormalized = p.cityin?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            const cityMatches = sheetCityNormalized === normalizedCity || p.slug.includes(normalizedCity);
+
+            if (!parentMatches || !cityMatches) return false;
+
+            // Check area in slug or name
+            // We look for the area name in the slug or the name field
+            const slugHasArea = p.slug.includes(normalizedArea);
+            const nameHasArea = p.name.toLowerCase().includes(normalizedArea.replace(/-/g, ' '));
+
+            return slugHasArea || nameHasArea;
+        });
+
+        if (page) {
+            console.log(`!!! FOUND AREA PAGE FOR: ${parentSlug}/${city}/${area}`);
+        } else {
+            console.log(`!!! NO AREA PAGE FOUND FOR: ${parentSlug}/${city}/${area}`);
+        }
+
+        return page || null;
+    } catch (error) {
+        console.error('Error fetching page by area hierarchy:', error);
         return null;
     }
 }

@@ -9,8 +9,8 @@ export async function GET() {
         const total = await getTotalCount();
         console.log('!!! SITEMAP INDEX: TOTAL PAGES:', total);
 
-        // Use a static date to prevent dynamic content generation
-        const lastModDate = '2025-01-08T00:00:00.000Z';
+        // Use current date for lastmod
+        const lastModDate = new Date().toISOString();
         const pageSize = 1000; // Number of URLs per sitemap
         const totalPages = Math.ceil(total / pageSize);
 

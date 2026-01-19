@@ -14,21 +14,31 @@ import RCSService from '@/components/services/rcs/page';
 import SocialMediaAdsService from '@/components/services/social-media-ads/page';
 import UIUXService from '@/components/services/uiux/page';
 import VoiceService from '@/components/services/voice/page';
-import { getPageBySlug } from '@/lib/googleSheets';
+import { getPageBySlug, getPaginatedPages, getPageByHierarchy } from '@/lib/googleSheets';
 
 // Use React cache to deduplicate requests within the same render
-const fetchPageData = cache(async (slug: string) => {
-    console.log('!!! FETCHING PAGE DATA FOR SLUG:', slug);
-    return await getPageBySlug(slug);
+const fetchPageData = cache(async (parent: string, city: string) => {
+    console.log('!!! FETCHING PAGE DATA FOR HIERARCHY:', parent, city);
+    return await getPageByHierarchy(parent, city);
 });
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-    const { slug } = await params;
-    console.log('!!! GENERATING METADATA FOR:', slug);
-    const data = await fetchPageData(slug);
+type Props = {
+    params: Promise<{
+        parentslug: string;
+        city: string;
+    }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { parentslug, city } = await params;
+    // Construct the slug from parent and city
+    // Example: website-design + tumakuru -> website-design-tumakuru
+    // const slug = `${parentslug}-${city}`; // No longer needed for fetching
+
+    console.log('!!! GENERATING METADATA FOR HIERARCHY:', parentslug, city);
+    const data = await fetchPageData(parentslug, city);
 
     if (!data) {
-        console.log('!!! NO DATA FOUND FOR METADATA');
         return {
             title: 'Page Not Found',
             description: 'This page does not exist.',
@@ -52,16 +62,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
 }
 
-export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params;
-    console.log('!!! RENDERING PAGE FOR:', slug);
-    const service = await fetchPageData(slug);
+// Generate static params if possible, or allow dynamic
+// Since we have many combinations, we might want to generate some key ones at build time
+// But for now let's keep it dynamic-first with caching
+export const dynamicParams = true;
+
+export default async function Page({ params }: Props) {
+    const { parentslug, city } = await params;
+
+    console.log('!!! RENDERING PAGE FOR HIERARCHY:', parentslug, city);
+    const service = await fetchPageData(parentslug, city);
 
     if (!service) {
-        console.log('!!! NO DATA FOUND FOR PAGE');
+        console.log('!!! NO DATA FOUND FOR HIERARCHICAL PAGE:', parentslug, city);
         return notFound();
     }
-
 
     // Render the correct component based on servicename
     const servicename = service.servicename.toLowerCase();

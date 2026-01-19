@@ -42,9 +42,21 @@ export async function GET(
                 ? new Date(page.date).toISOString()
                 : fallbackDate;
 
+            let loc = `${baseUrl}/services/${page.slug}`;
+
+            // If parentslug, city, and location exist, use clean hierarchical URL structure
+            // Format: /services/[parentslug]/[city]/[area]
+            if (page.parentslug && page.locationin && page.cityin) {
+                const citySlug = page.cityin.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                const areaSlug = page.locationin.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+                // Clean URL: service/city/area
+                loc = `${baseUrl}/services/${page.parentslug}/${citySlug}/${areaSlug}`;
+            }
+
             return `
       <url>
-        <loc>${baseUrl}/services/${page.slug}</loc>
+        <loc>${loc}</loc>
         <lastmod>${lastmod}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>

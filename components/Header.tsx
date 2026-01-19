@@ -87,8 +87,8 @@ export default function Header() {
                                     key={item.label}
                                     href={item.href}
                                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeSection === item.id
-                                        ? 'bg-white text-foreground shadow-sm'
-                                        : 'text-muted-foreground hover:text-foreground hover:bg-white/50'
+                                        ? 'bg-white dark:bg-gray-700/80 text-foreground dark:text-gray-100 shadow-sm'
+                                        : 'text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                                         }`}
                                 >
                                     {item.label}
