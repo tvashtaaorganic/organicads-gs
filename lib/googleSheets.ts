@@ -197,12 +197,15 @@ export async function getPageByHierarchyWithArea(parentSlug: string, city: strin
 
             if (!parentMatches || !cityMatches) return false;
 
-            // Check area in slug or name
-            // We look for the area name in the slug or the name field
+            // Check area - normalize the locationin field from the sheet and compare with URL area
+            const sheetLocationNormalized = p.locationin?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            const locationMatches = sheetLocationNormalized === normalizedArea;
+            
+            // Also check if area exists in slug or name as fallback
             const slugHasArea = p.slug.includes(normalizedArea);
             const nameHasArea = p.name.toLowerCase().includes(normalizedArea.replace(/-/g, ' '));
 
-            return slugHasArea || nameHasArea;
+            return locationMatches || slugHasArea || nameHasArea;
         });
 
         if (page) {
