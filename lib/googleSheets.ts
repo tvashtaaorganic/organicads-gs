@@ -25,6 +25,10 @@ export interface PageData {
 const GOOGLE_SHEET_ID = '1alHg2OqxjX-m8J7Z6bxeJ38JGCT3paK1oDu1sP1D76Y';
 const SHEET_NAME = 'pages';
 
+// In-memory cache with timestamp
+let cachedData: { pages: PageData[], timestamp: number } | null = null;
+const CACHE_DURATION = 3600000; // 1 hour in milliseconds
+
 // Fetch data from Google Sheets (raw, uncached)
 async function fetchGoogleSheetData(): Promise<PageData[]> {
     console.log('!!! FETCHING DATA FROM GOOGLE SHEETS');
@@ -33,7 +37,7 @@ async function fetchGoogleSheetData(): Promise<PageData[]> {
 
     try {
         const response = await fetch(url, {
-            next: { revalidate: 86400 } // Cache for 24 hours
+            cache: 'no-store' // Don't use Next.js cache here, we'll handle it ourselves
         });
 
         if (!response.ok) {
@@ -41,7 +45,6 @@ async function fetchGoogleSheetData(): Promise<PageData[]> {
         }
 
         const text = await response.text();
-        // console.log('!!! GOOGLE SHEETS RAW RESPONSE LENGTH:', text.length); // Commented out debug log
 
         // Google Sheets returns JSONP, we need to extract the JSON
         const jsonString = text.substring(47).slice(0, -2);
@@ -84,6 +87,13 @@ async function fetchGoogleSheetData(): Promise<PageData[]> {
         }
 
         console.log(`!!! LOADED ${pages.length} PAGES FROM GOOGLE SHEETS`);
+
+        // Update in-memory cache
+        cachedData = {
+            pages,
+            timestamp: Date.now()
+        };
+
         return pages;
     } catch (error) {
         console.error('Error fetching Google Sheets:', error);
@@ -91,27 +101,28 @@ async function fetchGoogleSheetData(): Promise<PageData[]> {
     }
 }
 
-// Cache all pages data for 24 hours (86400 seconds)
-const getCachedAllPages = unstable_cache(
-    async () => {
-        console.log('!!! CACHE MISS: Fetching all pages from Google Sheets');
-        return await fetchGoogleSheetData();
-    },
-    ['google-sheets-all-pages'],
-    {
-        revalidate: 86400, // Cache for 24 hours
-        tags: ['google-sheets-pages'],
-    }
-);
-
-// Get all pages (cached)
+// Get all pages (with in-memory caching)
 export async function getAllPages(): Promise<PageData[]> {
     try {
-        return await getCachedAllPages();
+        // Check if cache is valid
+        if (cachedData && (Date.now() - cachedData.timestamp) < CACHE_DURATION) {
+            console.log('!!! USING CACHED DATA (Age: ' + Math.round((Date.now() - cachedData.timestamp) / 1000) + 's)');
+            return cachedData.pages;
+        }
+
+        // Cache expired or doesn't exist, fetch fresh data
+        console.log('!!! CACHE MISS OR EXPIRED: Fetching from Google Sheets');
+        return await fetchGoogleSheetData();
     } catch (error) {
         console.error('Error getting all pages:', error);
         return [];
     }
+}
+
+// Clear the in-memory cache (for manual revalidation)
+export function clearCache() {
+    cachedData = null;
+    console.log('!!! CACHE CLEARED MANUALLY');
 }
 
 // Get page by slug (uses cached all pages data)
@@ -200,7 +211,7 @@ export async function getPageByHierarchyWithArea(parentSlug: string, city: strin
             // Check area - normalize the locationin field from the sheet and compare with URL area
             const sheetLocationNormalized = p.locationin?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
             const locationMatches = sheetLocationNormalized === normalizedArea;
-            
+
             // Also check if area exists in slug or name as fallback
             const slugHasArea = p.slug.includes(normalizedArea);
             const nameHasArea = p.name.toLowerCase().includes(normalizedArea.replace(/-/g, ' '));

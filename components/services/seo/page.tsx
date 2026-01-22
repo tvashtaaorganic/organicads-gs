@@ -88,18 +88,18 @@ export default function SEOService({ service }: SEOServiceProps) {
             <Header />
 
             {/* Premium Hero Section */}
-            <section className="relative pt-24 pb-8 px-4 overflow-hidden bg-white dark:bg-background">
+            <section className="relative pt-20 sm:pt-24 pb-8 sm:pb-12 px-3 sm:px-4 overflow-hidden bg-white dark:bg-background">
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
 
                 <div className="relative z-10 w-full max-w-7xl mx-auto">
-                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
                         {/* Left: Text Content */}
-                        <div className="text-center lg:text-left">
-                            <div className="flex justify-center lg:justify-start mb-6">
+                        <div className="text-center lg:text-left space-y-3 sm:space-y-4 md:space-y-6 w-full overflow-hidden">
+                            <div className="flex justify-center lg:justify-start mb-3 sm:mb-4">
                                 <Breadcrumb items={breadcrumbItems} />
                             </div>
 
-                            <div className="flex justify-center lg:justify-start mb-6">
+                            <div className="flex justify-center lg:justify-start mb-3 sm:mb-4">
                                 <ServiceBadge
                                     servicename={service.servicename}
                                     name={service.name}
@@ -109,30 +109,30 @@ export default function SEOService({ service }: SEOServiceProps) {
                                 />
                             </div>
 
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-gray-900 dark:text-gray-100">
-                                {service.name} <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400">
+                            <h1 className="text-[22px] leading-[1.3] sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 sm:mb-4 md:mb-6 tracking-tight text-gray-900 dark:text-gray-100 break-words w-full">
+                                <span className="block sm:inline">{service.name}</span> <br className="sm:hidden" />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 block sm:inline">
                                     in {service.locationin}, {service.cityin}
                                 </span>
                             </h1>
 
-                            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto lg:mx-0 leading-relaxed mb-8">
+                            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-full lg:max-w-3xl mx-auto lg:mx-0 leading-relaxed mb-4 sm:mb-6 md:mb-8">
                                 {service.descpost === 'domestic'
-                                    ? `Driving organic growth for Indian businesses with targeted SEO strategies.`
-                                    : `Scaling visibility globally through high-impact international SEO campaigns.`
+                                    ? `Accelerating growth for Indian businesses with targeted ${service.name} campaigns.`
+                                    : `Scaling brands globally through high-impact international ${service.name} strategies.`
                                 }
                             </p>
 
-                            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-12">
-                                <a href="#contact" className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-all shadow-lg hover:shadow-blue-500/25 text-lg">
+                            <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3 mb-6 sm:mb-8 md:mb-10 w-full">
+                                <a href="#contact" className="w-full sm:w-auto px-6 sm:px-7 md:px-8 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-all shadow-lg hover:shadow-blue-500/25 text-sm sm:text-base md:text-lg text-center whitespace-nowrap">
                                     Get Custom Quote
                                 </a>
-                                <a href="#portfolio" className="px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-full font-semibold hover:border-gray-300 dark:hover:border-gray-600 transition-all text-lg">
+                                <a href="#portfolio" className="w-full sm:w-auto px-6 sm:px-7 md:px-8 py-2.5 sm:py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-full font-semibold hover:border-gray-300 dark:hover:border-gray-600 transition-all text-sm sm:text-base md:text-lg text-center whitespace-nowrap">
                                     View Portfolio
                                 </a>
                             </div>
 
-                            <div className="flex justify-center lg:justify-start">
+                            <div className="flex justify-center lg:justify-start w-full">
                                 <TrustIndicators serviceName={service.name} cityin={service.cityin} />
                             </div>
                         </div>

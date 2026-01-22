@@ -118,10 +118,10 @@ export default function PlatformSolutions() {
     };
 
     return (
-        <section className="py-20 bg-background overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
+        <section className="py-10 bg-background overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
             <div className="container mx-auto px-4">
-                <div className="text-center mb-16 space-y-4">
-                    <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+                <div className="text-center mb-5 space-y-4">
+                    <h2 className="text-3xl md:text-5xl font-bold text-foreground">
                         Our Platform Solutions
                     </h2>
                     <p className="text-xl text-muted-foreground">

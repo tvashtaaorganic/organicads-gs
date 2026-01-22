@@ -418,7 +418,7 @@ export default function PricingSection() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                 >
-                    <h2 className="text-4xl md:text-6xl font-bold mb-4 text-foreground">
+                    <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
                         Our <span className="gradient-text">Pricing Plans</span>
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

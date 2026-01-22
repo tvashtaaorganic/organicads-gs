@@ -43,7 +43,7 @@ export default function WorkProcess() {
                     transition={{ duration: 0.6 }}
                 >
                     <span className="text-primary font-semibold text-sm uppercase tracking-wider">Work Process</span>
-                    <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-4">
+                    <h2 className="text-3xl md:text-5xl font-bold mt-2 mb-4">
                         Our <span className="gradient-text">Solution Process</span>
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-3xl mx-auto">

@@ -21,7 +21,7 @@ export default function AboutSection() {
                     >
                         <div className="mb-6">
                             <span className="text-primary font-semibold text-sm uppercase tracking-wider">About Us</span>
-                            <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-6">
+                            <h2 className="text-3xl md:text-5xl font-bold mt-2 mb-6">
                                 Success in Every Click: Welcome to <span className="gradient-text">Organic Ads Technologies</span>
                             </h2>
                         </div>

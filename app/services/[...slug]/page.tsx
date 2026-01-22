@@ -16,6 +16,10 @@ import UIUXService from '@/components/services/uiux/page';
 import VoiceService from '@/components/services/voice/page';
 import { getPageBySlug, getPageByHierarchy, getPageByHierarchyWithArea } from '@/lib/googleSheets';
 
+// Use dynamic rendering with ISR - only fetch the specific page requested
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // Cache each page for 1 hour after first visit
+
 const fetchPageData = cache(async (slugParts: string[]) => {
     console.log('!!! FETCHING PAGE DATA FOR SLUG PARTS:', slugParts);
 
