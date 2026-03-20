@@ -1,49 +1,64 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { CheckCircle2, Clock, Target, Rocket, Shield, Sparkles } from 'lucide-react';
+import { CheckCircle2, Clock, Target, Rocket, Shield, Sparkles, TrendingUp } from 'lucide-react';
 
 const features = [
     {
         icon: Target,
         title: 'Commitment',
         description: 'We are dedicated to your success. Every project receives our full attention and expertise.',
-        highlights: ['100% Client Focus', 'Transparent Process', 'Regular Updates']
+        highlights: ['100% Client Focus', 'Transparent Process', 'Regular Updates'],
+        accent: 'from-blue-500 to-indigo-600',
+        bg: 'bg-blue-50 dark:bg-blue-900/10',
+        iconBg: 'bg-blue-600',
     },
     {
         icon: Rocket,
         title: 'Fast Delivery',
-        description: 'Speed without compromise. We deliver quality results in record time - often within 4 days.',
-        highlights: ['4-Day Response', 'Agile Workflow', 'Quick Turnaround']
+        description: 'Speed without compromise. We deliver quality results in record time — often within 4 days.',
+        highlights: ['4-Day Response', 'Agile Workflow', 'Quick Turnaround'],
+        accent: 'from-pink-500 to-rose-600',
+        bg: 'bg-pink-50 dark:bg-pink-900/10',
+        iconBg: 'bg-pink-600',
     },
     {
         icon: TrendingUp,
         title: 'SEO Results',
         description: 'Data-driven SEO strategies that get you ranked. Measurable results you can track.',
-        highlights: ['Top Rankings', 'Organic Traffic', 'Analytics Reports']
+        highlights: ['Top Rankings', 'Organic Traffic', 'Analytics Reports'],
+        accent: 'from-emerald-500 to-teal-600',
+        bg: 'bg-emerald-50 dark:bg-emerald-900/10',
+        iconBg: 'bg-emerald-600',
     },
     {
         icon: Shield,
         title: 'Quality Assurance',
         description: 'Rigorous testing and quality checks ensure your project exceeds industry standards.',
-        highlights: ['Bug-Free Code', 'Performance Optimized', 'Security First']
+        highlights: ['Bug-Free Code', 'Performance Optimized', 'Security First'],
+        accent: 'from-violet-500 to-purple-600',
+        bg: 'bg-violet-50 dark:bg-violet-900/10',
+        iconBg: 'bg-violet-600',
     },
     {
         icon: Sparkles,
         title: 'Premium Design',
         description: 'From budget-friendly to high-end custom designs, we create stunning digital experiences.',
-        highlights: ['Modern UI/UX', 'Responsive Design', 'Brand Consistency']
+        highlights: ['Modern UI/UX', 'Responsive Design', 'Brand Consistency'],
+        accent: 'from-orange-500 to-amber-600',
+        bg: 'bg-orange-50 dark:bg-orange-900/10',
+        iconBg: 'bg-orange-500',
     },
     {
         icon: Clock,
         title: '24/7 Support',
         description: 'Round-the-clock support to keep your business running smoothly at all times.',
-        highlights: ['Always Available', 'Quick Resolution', 'Dedicated Team']
+        highlights: ['Always Available', 'Quick Resolution', 'Dedicated Team'],
+        accent: 'from-cyan-500 to-sky-600',
+        bg: 'bg-cyan-50 dark:bg-cyan-900/10',
+        iconBg: 'bg-cyan-600',
     },
 ];
-
-import { TrendingUp } from 'lucide-react';
 
 export default function Features() {
     return (
@@ -70,30 +85,27 @@ export default function Features() {
                         return (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                transition={{ duration: 0.5, delay: index * 0.08 }}
+                                className={`rounded-[2rem] p-8 ${feature.bg} hover:scale-[1.02] transition-all duration-500 group flex flex-col gap-5`}
                             >
-                                <Card className="glass-effect h-full border-border/50 hover:border-primary/50 transition-all duration-300 group">
-                                    <CardContent className="p-6">
-                                        <div className="mb-4">
-                                            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 border border-primary/30 p-2.5 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                <Icon className="w-full h-full text-foreground" />
-                                            </div>
-                                        </div>
-                                        <h3 className="text-2xl font-bold mb-3">{feature.title}</h3>
-                                        <p className="text-muted-foreground mb-4">{feature.description}</p>
-                                        <ul className="space-y-2">
-                                            {feature.highlights.map((highlight, i) => (
-                                                <li key={i} className="flex items-center text-sm">
-                                                    <CheckCircle2 className="w-4 h-4 mr-2 text-primary flex-shrink-0" />
-                                                    <span>{highlight}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </CardContent>
-                                </Card>
+                                <div className={`w-14 h-14 rounded-2xl ${feature.iconBg} flex items-center justify-center group-hover:scale-110 transition-transform duration-500`}>
+                                    <Icon className="w-7 h-7 text-white" strokeWidth={2} />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white tracking-tight">{feature.title}</h3>
+                                    <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-base">{feature.description}</p>
+                                </div>
+                                <ul className="space-y-3 mt-auto">
+                                    {feature.highlights.map((highlight, i) => (
+                                        <li key={i} className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300 font-medium">
+                                            <CheckCircle2 className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                                            {highlight}
+                                        </li>
+                                    ))}
+                                </ul>
                             </motion.div>
                         );
                     })}

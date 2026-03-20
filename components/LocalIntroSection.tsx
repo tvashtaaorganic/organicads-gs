@@ -65,7 +65,7 @@ export default function LocalIntroSection({
                         </div>
 
                         <h2 className="text-3xl md:text-5xl lg:text-5xl font-bold leading-tight text-gray-900 dark:text-white">
-                            Top-Rated <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+                            Best <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
                                 {serviceName}
                             </span> in {displayLocation}
                         </h2>

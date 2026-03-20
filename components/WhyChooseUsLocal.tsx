@@ -7,25 +7,28 @@ import { CheckCircle, Zap, Shield, TrendingUp, Users, MapPin } from 'lucide-reac
 interface WhyChooseUsLocalProps {
     serviceName: string;
     cityin: string;
+    locationin?: string; // Specific area
     citytype?: string;
 }
 
-export default function WhyChooseUsLocal({ serviceName, cityin, citytype = 'town' }: WhyChooseUsLocalProps) {
+export default function WhyChooseUsLocal({ serviceName, cityin, locationin, citytype = 'town' }: WhyChooseUsLocalProps) {
+    const displayLoc = locationin || cityin;
+
     const getReasons = () => {
         const baseReasons = [
             {
-                title: `Local Expertise in ${cityin}`,
-                description: `We understand the ${cityin} market dynamics, bringing you solutions that resonate with local customers.`,
+                title: `Local Expertise in ${displayLoc}`,
+                description: `We understand the ${displayLoc} market dynamics, bringing you solutions that resonate with local customers.`,
                 icon: <MapPin className="w-8 h-8 text-blue-500" />
             },
             {
                 title: 'Proven Track Record',
-                description: `Join successfully growing businesses in ${cityin} who trust our strategies.`,
+                description: `Join successfully growing businesses in ${displayLoc} who trust our strategies.`,
                 icon: <TrendingUp className="w-8 h-8 text-green-500" />
             },
             {
                 title: 'Dedicated Support',
-                description: `Fast, reliable support specifically for our ${cityin} clients.`,
+                description: `Fast, reliable support specifically for our ${displayLoc} clients.`,
                 icon: <Users className="w-8 h-8 text-purple-500" />
             }
         ];
@@ -35,7 +38,7 @@ export default function WhyChooseUsLocal({ serviceName, cityin, citytype = 'town
                 ...baseReasons,
                 {
                     title: 'Scalable Solutions',
-                    description: 'Built to handle high traffic and competitive metro markets.',
+                    description: `Built to handle high traffic and competitive ${displayLoc} markets.`,
                     icon: <Zap className="w-8 h-8 text-yellow-500" />
                 }
             ];
@@ -44,7 +47,7 @@ export default function WhyChooseUsLocal({ serviceName, cityin, citytype = 'town
                 ...baseReasons,
                 {
                     title: 'Visitor Focused',
-                    description: 'Strategies to attract and convert tourists in your city.',
+                    description: `Strategies to attract and convert tourists in ${displayLoc}.`,
                     icon: <Zap className="w-8 h-8 text-orange-500" />
                 }
             ];
@@ -53,7 +56,7 @@ export default function WhyChooseUsLocal({ serviceName, cityin, citytype = 'town
                 ...baseReasons,
                 {
                     title: 'Affordable Growth',
-                    description: 'Cost-effective solutions tailored for growing local businesses.',
+                    description: `Cost-effective solutions tailored for growing businesses in ${displayLoc}.`,
                     icon: <Shield className="w-8 h-8 text-red-500" />
                 }
             ];
@@ -63,19 +66,19 @@ export default function WhyChooseUsLocal({ serviceName, cityin, citytype = 'town
     const reasons = getReasons();
 
     return (
-        <section className="py-24 px-4 bg-white dark:bg-background">
+        <section className="py-24 px-4 bg-white dark:bg-background border-t border-gray-100 dark:border-slate-900">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-16">
                     <div className="flex justify-center mb-4">
-                        <span className="bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-blue-100">
+                        <span className="bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 px-4 py-1.5 rounded-full text-sm font-semibold border border-blue-100 dark:border-blue-800">
                             Why Choose Us
                         </span>
                     </div>
                     <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-                        Why <span className="text-blue-600 dark:text-blue-400 border-b-4 border-blue-200 dark:border-blue-900">{cityin}</span> Businesses Trust Us
+                        Why <span className="text-blue-600 dark:text-blue-400 border-b-4 border-blue-200 dark:border-blue-900">{displayLoc}</span> Businesses Trust Us
                     </h2>
                     <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                        We combine global quality with deep local understanding to deliver the best {serviceName.toLowerCase()} services in {cityin}.
+                        We combine global quality with deep local understanding to deliver the best {serviceName.toLowerCase()} services in {displayLoc}.
                     </p>
                 </div>
 

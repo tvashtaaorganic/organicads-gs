@@ -5,7 +5,12 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle2, Zap, TrendingUp, Award } from 'lucide-react';
 import Image from 'next/image';
 
-export default function AboutSection() {
+interface AboutSectionProps {
+    serviceName?: string;
+    locationin?: string;
+}
+
+export default function AboutSection({ serviceName = "Digital Agency", locationin = "Bangalore" }: AboutSectionProps) {
     return (
         <section className="py-24 px-4 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
@@ -56,7 +61,7 @@ export default function AboutSection() {
 
                         <Button
                             size="lg"
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-5 text-sm shadow-xl rounded-xl border-2 border-blue-500"
+                            className="bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 border-0 shadow-none hover:scale-[1.02] transition-transform rounded-full px-8 h-14 font-semibold text-base"
                             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                         >
                             Find more about us
@@ -86,25 +91,25 @@ export default function AboutSection() {
 
                         {/* Achievement Stats */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="bg-card border border-border rounded-xl p-4 text-center">
-                                <Award className="w-8 h-8 text-primary mx-auto mb-2" />
-                                <p className="text-2xl font-bold gradient-text">13+</p>
-                                <p className="text-xs text-muted-foreground">Years Experience</p>
+                            <div className="bg-slate-100 dark:bg-slate-800 rounded-3xl p-6 text-center transition-colors hover:bg-slate-200 dark:hover:bg-slate-700">
+                                <Award className="w-8 h-8 text-primary mx-auto mb-3" />
+                                <p className="text-2xl font-bold text-slate-900 dark:text-white mb-1">13+</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Years Experience</p>
                             </div>
-                            <div className="bg-card border border-border rounded-xl p-4 text-center">
-                                <TrendingUp className="w-8 h-8 text-green-500 mx-auto mb-2" />
-                                <p className="text-2xl font-bold gradient-text">28.6M</p>
-                                <p className="text-xs text-muted-foreground">Impressions</p>
+                            <div className="bg-slate-100 dark:bg-slate-800 rounded-3xl p-6 text-center transition-colors hover:bg-slate-200 dark:hover:bg-slate-700">
+                                <TrendingUp className="w-8 h-8 text-green-500 mx-auto mb-3" />
+                                <p className="text-2xl font-bold text-slate-900 dark:text-white mb-1">28.6M</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Impressions</p>
                             </div>
-                            <div className="bg-card border border-border rounded-xl p-4 text-center">
-                                <Zap className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-                                <p className="text-2xl font-bold gradient-text">165K+</p>
-                                <p className="text-xs text-muted-foreground">Clicks</p>
+                            <div className="bg-slate-100 dark:bg-slate-800 rounded-3xl p-6 text-center transition-colors hover:bg-slate-200 dark:hover:bg-slate-700">
+                                <Zap className="w-8 h-8 text-blue-500 mx-auto mb-3" />
+                                <p className="text-2xl font-bold text-slate-900 dark:text-white mb-1">165K+</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Clicks</p>
                             </div>
-                            <div className="bg-card border border-border rounded-xl p-4 text-center">
-                                <CheckCircle2 className="w-8 h-8 text-primary mx-auto mb-2" />
-                                <p className="text-2xl font-bold gradient-text">AI-Driven</p>
-                                <p className="text-xs text-muted-foreground">Results</p>
+                            <div className="bg-slate-100 dark:bg-slate-800 rounded-3xl p-6 text-center transition-colors hover:bg-slate-200 dark:hover:bg-slate-700">
+                                <CheckCircle2 className="w-8 h-8 text-primary mx-auto mb-3" />
+                                <p className="text-2xl font-bold text-slate-900 dark:text-white mb-1">AI-Driven</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Results</p>
                             </div>
                         </div>
                     </motion.div>

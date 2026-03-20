@@ -25,6 +25,7 @@ import WhyChooseUsLocal from '@/components/WhyChooseUsLocal';
 import LocalAreasServed from '@/components/LocalAreasServed';
 import LocalTestimonial from '@/components/LocalTestimonial';
 import LocalFAQs from '@/components/LocalFAQs';
+import RelatedKeywords from '@/components/RelatedKeywords';
 import TrustIndicators from '@/components/TrustIndicators';
 import Image from 'next/image';
 
@@ -107,9 +108,8 @@ export default function RCSService({ service }: RCSServiceProps) {
                                 />
                             </div>
 
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-gray-900 dark:text-gray-100">
-                                {service.name} <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400">
+                            <h1 className="text-3xl sm:text-5xl md:text-5xl lg:text-5xl font-medium mb-6 tracking-tight text-gray-900 dark:text-gray-100">
+                                Best {service.name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400">
                                     in {service.locationin}, {service.cityin}
                                 </span>
                             </h1>
@@ -169,6 +169,7 @@ export default function RCSService({ service }: RCSServiceProps) {
             <WhyChooseUsLocal
                 serviceName={service.name}
                 cityin={service.cityin}
+                locationin={service.locationin}
             />
 
             <LocalAreasServed
@@ -193,7 +194,15 @@ export default function RCSService({ service }: RCSServiceProps) {
             <LocalFAQs
                 serviceName={service.name}
                 cityin={service.cityin}
+                locationin={service.locationin}
                 servicetype={service.servicename}
+            />
+
+            <RelatedKeywords
+                serviceName={service.name}
+                locationin={service.locationin || ''}
+                cityin={service.cityin}
+                parentSlug="rcs"
             />
             <CTA />
             <Footer />

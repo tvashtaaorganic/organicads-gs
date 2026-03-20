@@ -9,6 +9,7 @@ import Script from 'next/script';
 interface LocalFAQsProps {
     serviceName: string;
     cityin: string;
+    locationin?: string; // Specific area
     servicetype?: string;
 }
 
@@ -17,33 +18,34 @@ interface FAQ {
     answer: string;
 }
 
-export default function LocalFAQs({ serviceName, cityin, servicetype = 'website design' }: LocalFAQsProps) {
+export default function LocalFAQs({ serviceName, cityin, locationin, servicetype = 'website design' }: LocalFAQsProps) {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
+    const displayLoc = locationin || cityin;
 
     const faqs: FAQ[] = [
         {
-            question: `Do you offer ${serviceName.toLowerCase()} services in ${cityin}?`,
-            answer: `Yes, we provide professional ${serviceName.toLowerCase()} services to businesses in ${cityin}. Our team has extensive experience working with local businesses and understands the unique needs of the ${cityin} market.`
+            question: `Do you offer ${serviceName.toLowerCase()} services in ${displayLoc}?`,
+            answer: `Yes, we provide professional ${serviceName.toLowerCase()} services to businesses in ${displayLoc}. Our team has extensive experience working with local businesses and understands the unique needs of the ${displayLoc} market.`
         },
         {
-            question: `How much does ${serviceName.toLowerCase()} cost in ${cityin}?`,
-            answer: `The cost varies based on your requirements. We offer flexible pricing packages tailored for ${cityin} businesses, starting from affordable options for startups to comprehensive solutions for larger enterprises.`
+            question: `How much does ${serviceName.toLowerCase()} cost in ${displayLoc}?`,
+            answer: `The cost varies based on your requirements. We offer flexible pricing packages tailored for ${displayLoc} businesses, starting from affordable options for startups to comprehensive solutions for larger enterprises.`
         },
         {
-            question: `How long does it take to complete a project in ${cityin}?`,
-            answer: `Project timelines typically range from 2-8 weeks. We work efficiently to deliver high-quality results. For ${cityin} clients, we maximize availability for agile iterations and feedback.`
+            question: `How long does it take to complete a project in ${displayLoc}?`,
+            answer: `Project timelines typically range from 2-8 weeks. We work efficiently to deliver high-quality results. For ${displayLoc} clients, we maximize availability for agile iterations and feedback.`
         },
         {
-            question: `Can you support local SEO for ${cityin} businesses?`,
-            answer: `Absolutely! We specialize in local SEO for ${cityin}. Our strategies include Google My Business optimization, local keyword targeting, and citation building to help you rank higher in ${cityin} search results.`
+            question: `Can you support local SEO for ${displayLoc} businesses?`,
+            answer: `Absolutely! We specialize in local SEO for ${displayLoc}. Our strategies include Google My Business optimization, local keyword targeting, and citation building to help you rank higher in ${displayLoc} search results.`
         },
         {
-            question: `Do you provide ongoing support in ${cityin}?`,
-            answer: `Yes, we offer comprehensive post-launch support for all ${cityin} clients, including maintenance, updates, and performance optimization.`
+            question: `Do you provide ongoing support in ${displayLoc}?`,
+            answer: `Yes, we offer comprehensive post-launch support for all ${displayLoc} clients, including maintenance, updates, and performance optimization.`
         },
         {
-            question: `Why choose you for ${serviceName.toLowerCase()} in ${cityin}?`,
-            answer: `We understand the ${cityin} business landscape. Our team combines global expertise with local market insights to deliver solutions that drive real growth for ${cityin} enterprises.`
+            question: `Why choose you for ${serviceName.toLowerCase()} in ${displayLoc}?`,
+            answer: `We understand the ${displayLoc} business landscape. Our team combines global expertise with local market insights to deliver solutions that drive real growth for ${displayLoc} enterprises.`
         }
     ];
 

@@ -21,7 +21,7 @@ export default function FeaturedIn() {
         // <section className="py-12 px-4 bg-muted/30">
 
         // CURRENT: Has top/bottom borders
-        <section className="py-12 px-4 bg-muted/30 border-y border-border/50">
+        <section className="py-12 px-4 bg-slate-50 dark:bg-slate-900">
             <div className="max-w-7xl mx-auto">
                 <motion.div
                     className="text-center mb-8"
@@ -41,17 +41,15 @@ export default function FeaturedIn() {
                         {allLogos.map((logo, index) => (
                             <div
                                 key={`featured-${index}`}
-                                className="flex-shrink-0 w-40 mx-4"
+                                className="flex-shrink-0 w-40 mx-6 flex items-center justify-center"
                             >
-                                <div className="rounded-xl border bg-card shadow-sm h-25 p-4 flex items-center justify-center hover:shadow-md transition-shadow duration-300">
-                                    <Image
-                                        src={logo.url}
-                                        alt={logo.name}
-                                        width={120}
-                                        height={60}
-                                        className="w-full h-auto object-contain max-h-16 opacity-70 hover:opacity-100 transition-opacity duration-300"
-                                    />
-                                </div>
+                                <Image
+                                    src={logo.url}
+                                    alt={logo.name}
+                                    width={120}
+                                    height={60}
+                                    className="w-full h-auto object-contain max-h-14 opacity-50 hover:opacity-80 transition-opacity duration-300"
+                                />
                             </div>
                         ))}
                     </div>

@@ -174,7 +174,7 @@ export default function SEOResults() {
                     {displayedResults.map((result, index) => (
                         <motion.div
                             key={index}
-                            className="border border-border rounded-xl p-6 shadow-lg bg-card hover:border-primary/50 transition-all duration-300"
+                            className="bg-slate-100 dark:bg-slate-800 rounded-3xl p-6 sm:p-8 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-500 hover:scale-[1.02]"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -184,25 +184,25 @@ export default function SEOResults() {
                                 {result.title}
                             </h3>
                             <div className="overflow-x-auto">
-                                <table className="w-full border-collapse border border-border">
+                                <table className="w-full border-collapse">
                                     <thead>
-                                        <tr className="bg-primary/10">
-                                            <th className="border border-border px-4 py-2 text-center font-semibold text-card-foreground">
+                                        <tr className="border-b border-slate-200 dark:border-slate-800">
+                                            <th className="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300">
                                                 Keywords
                                             </th>
-                                            <th className="border border-border px-4 py-2 text-center font-semibold text-card-foreground">
+                                            <th className="px-4 py-3 text-center font-semibold text-slate-700 dark:text-slate-300">
                                                 Current Ranking
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {result.keywords.map((item, idx) => (
-                                            <tr key={idx} className="border border-border hover:bg-muted/50 transition-colors">
-                                                <td className="border border-border px-4 py-2 text-card-foreground">
+                                            <tr key={idx} className="border-b border-slate-100 dark:border-slate-800/50 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                                <td className="px-4 py-3 text-slate-600 dark:text-slate-400">
                                                     {item.keyword}
                                                 </td>
-                                                <td className="border border-border px-4 py-2 text-center">
-                                                    <span className={`font-bold ${item.ranking <= 3 ? 'text-primary' : 'text-card-foreground'}`}>
+                                                <td className="px-4 py-3 text-center">
+                                                    <span className={`font-bold inline-flex items-center justify-center w-8 h-8 rounded-full ${item.ranking <= 3 ? 'bg-primary/10 text-primary' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>
                                                         {item.ranking}
                                                     </span>
                                                 </td>

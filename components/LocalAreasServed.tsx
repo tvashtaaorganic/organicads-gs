@@ -1,18 +1,26 @@
 'use client';
 
 import { MapPin } from 'lucide-react';
+import Link from 'next/link';
 
 interface LocalAreasServedProps {
     cityin: string;
     nearbyareas?: string;
     serviceName: string;
     citytype?: string;
+    parentSlug?: string;
 }
 
-export default function LocalAreasServed({ cityin, nearbyareas, serviceName, citytype = 'town' }: LocalAreasServedProps) {
+export default function LocalAreasServed({ 
+    cityin, 
+    nearbyareas, 
+    serviceName, 
+    citytype = 'town',
+    parentSlug = 'digital-marketing'
+}: LocalAreasServedProps) {
     if (!nearbyareas) return null;
 
-    const areas = nearbyareas.split(',').map(area => area.trim());
+    const areas = nearbyareas.split(',').map(area => area.trim()).filter(Boolean);
 
     const getTitle = () => {
         if (citytype === 'metro') return `Serving All Neighborhoods in ${cityin}`;
@@ -35,28 +43,35 @@ export default function LocalAreasServed({ cityin, nearbyareas, serviceName, cit
                     </p>
                 </div>
 
-                {/* Areas Grid - Centered */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
-                    {areas.map((area, index) => (
-                        <div
-                            key={index}
-                            className="group flex items-center justify-center gap-3 p-4 bg-white dark:bg-card hover:bg-blue-50 dark:hover:bg-blue-900/10 border border-gray-300 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-700/50 rounded-xl transition-all duration-300 hover:shadow-lg cursor-default"
-                        >
-                            <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
-                                <MapPin className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                            </div>
-                            <span className="font-medium text-gray-700 dark:text-gray-200 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors text-sm md:text-base">
-                                {area}
-                            </span>
-                        </div>
-                    ))}
+                {/* Highly Optimized Areas Grid - Linkable for SEO */}
+                <div className="flex flex-wrap justify-center gap-3 max-w-7xl mx-auto">
+                    {areas.map((area, index) => {
+                        const svcSlug = parentSlug.toLowerCase().replace(/\s+/g, '-');
+                        const areaSlug = area.toLowerCase().replace(/\s+/g, '-');
+                        // Use Pattern 1 for internal link building across neighbors
+                        const targetUrl = `/${svcSlug}-company-in-${areaSlug}`;
+
+                        return (
+                            <Link
+                                key={index}
+                                href={targetUrl}
+                                className="group flex items-center justify-center gap-3 px-6 py-4 bg-white dark:bg-card hover:bg-orange-50 dark:hover:bg-orange-950/20 border border-gray-300 dark:border-gray-800 hover:border-orange-200 dark:hover:border-orange-900/50 rounded-2xl transition-all duration-300 hover:shadow-xl"
+                            >
+                                <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                    <MapPin className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+                                </div>
+                                <span className="font-bold text-gray-700 dark:text-gray-200 group-hover:text-orange-700 dark:group-hover:text-orange-400 transition-colors text-sm md:text-base">
+                                    {area}
+                                </span>
+                            </Link>
+                        );
+                    })}
                 </div>
 
-                {/* 'Cant find area' fallback */}
-                <div className="mt-16 inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 bg-white dark:bg-card px-6 py-3 rounded-full border border-gray-200 dark:border-gray-800 shadow-sm">
-                    <span>Can't find your area?</span>
-                    <a href="#contact" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">
-                        Check Availability &rarr;
+                <div className="mt-16 inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 bg-white dark:bg-card px-6 py-3 rounded-full border border-gray-200 dark:border-gray-800 shadow-sm font-medium">
+                    <span>Searching for another area?</span>
+                    <a href="/all-services" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                        View All Locations &rarr;
                     </a>
                 </div>
             </div>

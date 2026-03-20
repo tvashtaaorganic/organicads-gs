@@ -20,6 +20,28 @@ export default function ServiceStructuredData({
     slug
 }: ServiceStructuredDataProps) {
 
+    const displayLoc = locationin ? `${locationin}, ${cityin}` : cityin;
+
+    const localBusinessSchema = {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": `Organic Ads - ${displayLoc}`,
+        "description": description,
+        "url": `https://organicads.vercel.app/services/${slug}`,
+        "telephone": "+91-7259404569",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": locationin || cityin,
+            "addressLocality": cityin,
+            "addressRegion": countryin === "India" ? "Karnataka" : countryin,
+            "addressCountry": "IN"
+        },
+        "areaServed": [
+            { "@type": "City", "name": cityin },
+            ...(locationin ? [{ "@type": "Place", "name": locationin }] : [])
+        ]
+    };
+
     const breadcrumbSchema = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -39,7 +61,7 @@ export default function ServiceStructuredData({
             {
                 "@type": "ListItem",
                 "position": 3,
-                "name": `${serviceName} in ${cityin}, ${countryin}`,
+                "name": `${serviceName} in ${displayLoc}`,
                 "item": `https://organicads.vercel.app/services/${slug}`
             }
         ]
@@ -51,26 +73,18 @@ export default function ServiceStructuredData({
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": `What is ${serviceName}?`,
+                "name": `What is ${serviceName} in ${displayLoc}?`,
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": description
+                    "text": `${serviceName} for businesses in ${displayLoc} involves ${description}`
                 }
             },
             {
                 "@type": "Question",
-                "name": `Why choose Organic Ads for ${serviceName} in ${cityin}?`,
+                "name": `Why choose Organic Ads for ${serviceName} in ${displayLoc}?`,
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": `We specialize in providing top-tier ${serviceName} services to businesses across ${cityin} and ${countryin}. With over 500+ happy clients and presence in 15+ countries, we deliver measurable results.`
-                }
-            },
-            {
-                "@type": "Question",
-                "name": `How long does it take to see results from ${serviceName}?`,
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "We deliver measurable results within 4 days to 30 days depending on the service type and your specific requirements."
+                    "text": `We specialize in providing top-tier ${serviceName} services specifically tailored for businesses across ${displayLoc}. With local expertise and a proven track record, we deliver measurable results.`
                 }
             }
         ]
@@ -81,26 +95,24 @@ export default function ServiceStructuredData({
         "@type": "Organization",
         "name": "Organic Ads Technologies",
         "url": "https://organicads.vercel.app",
-        "logo": "https://res.cloudinary.com/s2ucdn/image/upload/v1734515561/organicads-logo_n5yg79.png",
+        "logo": "https://lh3.googleusercontent.com/pw/AP1GczMg2Z6_rbj-7eLF_n_5bWGVuuC8h2OrL0bSykxN3maKirmB0SKJ7HeWTYov6gWPt5RR4zMLVS1mlTWKy8MepoYL6JNh-SG_7H7-_E8JFkDD2mPQmhc2ZuDLGuMKL4AnMlgEH-tUPXlxbKefiv0QOD0N=w1195-h308-s-no-gm?authuser=0",
         "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+91-7259404569",
             "contactType": "Customer Service",
             "areaServed": "IN",
             "availableLanguage": ["English", "Hindi"]
-        },
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": locationin,
-            "addressLocality": cityin,
-            "addressRegion": countryin === "India" ? "Karnataka" : countryin,
-            "postalCode": "562123",
-            "addressCountry": "IN"
         }
     };
 
     return (
         <>
+            <Script
+                id="local-business-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                strategy="afterInteractive"
+            />
             <Script
                 id="breadcrumb-schema"
                 type="application/ld+json"
@@ -108,7 +120,7 @@ export default function ServiceStructuredData({
                 strategy="afterInteractive"
             />
             <Script
-                id="faq-schema"
+                id="faq-schema-structured"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
                 strategy="afterInteractive"

@@ -64,6 +64,18 @@ export default function Footer() {
                             <li><a href="#" className="hover:text-primary transition-colors">SQL & Databases</a></li>
                             <li><a href="#" className="hover:text-primary transition-colors">Tailwind CSS</a></li>
                         </ul>
+                        <h4 className="font-semibold text-lg mt-6 mb-4">Directory</h4>
+                        <ul className="space-y-2 text-muted-foreground">
+                            <li>
+                              <a 
+                                href="/all-services" 
+                                className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 font-bold transition-all"
+                              >
+                                <MapPin className="w-4 h-4" />
+                                All Locations
+                              </a>
+                            </li>
+                        </ul>
                     </div>
 
                     {/* Contact */}

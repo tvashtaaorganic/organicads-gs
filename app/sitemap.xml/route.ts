@@ -1,61 +1,67 @@
 import { NextResponse } from 'next/server';
+import { getTotalCount } from '@/lib/googleSheets';
 
-function escapeXml(unsafe: string): string {
-    return unsafe.replace(/[<>&'"]/g, (c) => {
-        switch (c) {
-            case '<': return '&lt;';
-            case '>': return '&gt;';
-            case '&': return '&amp;';
-            case '"': return '&quot;';
-            case "'": return '&apos;';
-            default: return c;
-        }
-    });
-}
-
-async function generateStaticSitemap() {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://organicads.vercel.app';
-
-    const staticPages = [
-        '/',
-        '/#about',
-        '/#services',
-        '/#portfolio',
-        '/#process',
-        '/#pricing',
-        '/#contact',
-    ];
-
-    const urls = staticPages.map((path) => ({
-        url: `${baseUrl}${path}`,
-        lastModified: new Date().toISOString(),
-    }));
-
-    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls
-            .map(
-                ({ url, lastModified }) => `
-  <url>
-    <loc>${escapeXml(url)}</loc>
-    <lastmod>${lastModified}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>`
-            )
-            .join('\n')}
-</urlset>`;
-
-    return sitemap;
-}
+const PATTERN_NAMES: Record<number, string> = {
+    1: 'direct-slugs',
+    2: 'services-main',
+    3: 'company-in-location',
+    4: 'services-location-prefixed',
+    5: 'company-location-city',
+    6: 'company-location-short',
+    7: 'name-in-location',
+    8: 'name-location-city',
+    9: 'city-services-location',
+    10: 'agency-location',
+    11: 'intl-company-location'
+};
 
 export async function GET() {
-    const sitemap = await generateStaticSitemap();
-    return new NextResponse(sitemap, {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://organicads.in';
+    const lastModDate = new Date().toISOString();
+
+    try {
+        const totalRows = await getTotalCount();
+        const pageSize = 1000;
+        const totalChunks = Math.ceil(totalRows / pageSize) || 1;
+
+        const patternsCount = 11;
+        const sitemaps: string[] = [
+            `${baseUrl}/sitemap-static.xml`,
+        ];
+
+        for (let pIndex = 1; pIndex <= patternsCount; pIndex++) {
+            const name = PATTERN_NAMES[pIndex] || `pattern-${pIndex}`;
+            for (let cIndex = 1; cIndex <= totalChunks; cIndex++) {
+                const filename = cIndex === 1 
+                    ? `sitemap-${name}.xml` 
+                    : `sitemap-${name}-c${cIndex}.xml`;
+                
+                sitemaps.push(`${baseUrl}/sitemaps/${filename}`);
+            }
+        }
+
+        const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  ${sitemaps
+            .map(
+                (loc) => `
+  <sitemap>
+    <loc>${loc}</loc>
+    <lastmod>${lastModDate}</lastmod>
+  </sitemap>`
+            )
+            .join('\n')}
+</sitemapindex>`;
+
+    return new NextResponse(sitemapIndex, {
         status: 200,
         headers: {
             'Content-Type': 'application/xml',
-            'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate',
+            'Cache-Control': 'public, s-maxage=172800, stale-while-revalidate=604800',
         },
     });
+    } catch (error) {
+        console.error('Sitemap Index generation error:', error);
+        return new NextResponse('Internal Server Error', { status: 500 });
+    }
 }

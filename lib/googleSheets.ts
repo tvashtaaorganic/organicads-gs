@@ -1,5 +1,3 @@
-import { unstable_cache } from 'next/cache';
-
 export interface PageData {
     id: number;
     name: string;
@@ -14,257 +12,192 @@ export interface PageData {
     slug: string;
     servicename: string;
     date: string;
-    // New fields for programmatic local SEO
     parentslug?: string;
     citytype?: string;
     businesstypes?: string;
     nearbyareas?: string;
     landmarks?: string;
+    expert_tips?: string;
+    faqs_dynamic?: string;
+    neighborhood_context?: string;
+    local_stats?: string;
 }
 
 const GOOGLE_SHEET_ID = '1alHg2OqxjX-m8J7Z6bxeJ38JGCT3paK1oDu1sP1D76Y';
 const SHEET_NAME = 'pages';
 
-// In-memory cache with timestamp
+// In-memory cache with 48-hour duration
 let cachedData: { pages: PageData[], timestamp: number } | null = null;
-const CACHE_DURATION = 3600000; // 1 hour in milliseconds
+const CACHE_DURATION = 172800000; 
 
-// Fetch data from Google Sheets (raw, uncached)
-async function fetchGoogleSheetData(): Promise<PageData[]> {
-    console.log('!!! FETCHING DATA FROM GOOGLE SHEETS');
+function mapCellsToPageData(cells: any[], rowIndex: number = 0): PageData {
+    return {
+        id: cells[0]?.v || rowIndex + 1,
+        name: cells[1]?.v || '',
+        locationin: cells[2]?.v || '',
+        cityin: cells[3]?.v || '',
+        countryin: cells[4]?.v || '',
+        descpost: cells[5]?.v || '',
+        cat: cells[6]?.v || '',
+        titletag: cells[7]?.v || '',
+        descriptiontag: cells[8]?.v || '',
+        keywordstag: cells[9]?.v || '',
+        slug: cells[10]?.v || '',
+        servicename: cells[11]?.v || '',
+        date: cells[12]?.v || '',
+        parentslug: cells[13]?.v || '',
+        citytype: cells[14]?.v || '',
+        businesstypes: cells[15]?.v || '',
+        nearbyareas: cells[16]?.v || '',
+        landmarks: cells[17]?.v || '',
+        expert_tips: cells[18]?.v || '',
+        faqs_dynamic: cells[19]?.v || '',
+        neighborhood_context: cells[20]?.v || '',
+        local_stats: cells[21]?.v || '',
+    };
+}
 
-    const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+async function fetchRowByQuery(query: string): Promise<PageData | null> {
+    const encodedQuery = encodeURIComponent(query);
+    const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}&tq=${encodedQuery}`;
 
     try {
-        const response = await fetch(url, {
-            cache: 'no-store' // Don't use Next.js cache here, we'll handle it ourselves
-        });
-
-        if (!response.ok) {
-            throw new Error(`Failed to fetch Google Sheets: ${response.status}`);
-        }
+        const response = await fetch(url, { cache: 'no-store' });
+        if (!response.ok) return null;
 
         const text = await response.text();
-
-        // Google Sheets returns JSONP, we need to extract the JSON
         const jsonString = text.substring(47).slice(0, -2);
         const data = JSON.parse(jsonString);
 
-        const rows = data.table.rows;
-        const pages: PageData[] = [];
+        if (!data.table || !data.table.rows || data.table.rows.length === 0) return null;
 
-        // Google Sheets API already handles headers, so start from index 0
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            const cells = row.c;
+        const cells = data.table.rows[0].c;
+        if (!cells) return null;
+        
+        return mapCellsToPageData(cells);
+    } catch (error) {
+        console.error('Targeted GQL fetch failed:', error);
+        return null;
+    }
+}
 
-            // Skip empty rows
-            if (!cells || cells.length === 0 || !cells[0]?.v) {
-                continue;
-            }
+export async function getAllPages(): Promise<PageData[]> {
+    if (cachedData && (Date.now() - cachedData.timestamp) < CACHE_DURATION) {
+        return cachedData.pages;
+    }
 
-            pages.push({
-                id: cells[0]?.v || i + 1,
-                name: cells[1]?.v || '',
-                locationin: cells[2]?.v || '',
-                cityin: cells[3]?.v || '',
-                countryin: cells[4]?.v || '',
-                descpost: cells[5]?.v || '',
-                cat: cells[6]?.v || '',
-                titletag: cells[7]?.v || '',
-                descriptiontag: cells[8]?.v || '',
-                keywordstag: cells[9]?.v || '',
-                slug: cells[10]?.v || '',
-                servicename: cells[11]?.v || '',
-                date: cells[12]?.v || new Date().toISOString(),
-                // New local SEO fields
-                parentslug: cells[13]?.v || '',
-                citytype: cells[14]?.v || '',
-                businesstypes: cells[15]?.v || '',
-                nearbyareas: cells[16]?.v || '',
-                landmarks: cells[17]?.v || '',
-            });
-        }
+    console.log('!!! FETCHING ALL PAGES FROM GOOGLE SHEETS (Global Load)');
+    const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
-        console.log(`!!! LOADED ${pages.length} PAGES FROM GOOGLE SHEETS`);
+    try {
+        const response = await fetch(url, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
 
-        // Update in-memory cache
-        cachedData = {
-            pages,
-            timestamp: Date.now()
-        };
+        const text = await response.text();
+        const jsonString = text.substring(47).slice(0, -2);
+        const data = JSON.parse(jsonString);
 
+        if (!data.table || !data.table.rows) return [];
+
+        const pages: PageData[] = (data.table.rows || []).map((r: any, i: number) => mapCellsToPageData(r.c, i));
+        cachedData = { pages, timestamp: Date.now() };
         return pages;
     } catch (error) {
-        console.error('Error fetching Google Sheets:', error);
+        console.error('Global fetch failed:', error);
         return [];
     }
 }
 
-// Get all pages (with in-memory caching)
-export async function getAllPages(): Promise<PageData[]> {
-    try {
-        // Check if cache is valid
-        if (cachedData && (Date.now() - cachedData.timestamp) < CACHE_DURATION) {
-            console.log('!!! USING CACHED DATA (Age: ' + Math.round((Date.now() - cachedData.timestamp) / 1000) + 's)');
-            return cachedData.pages;
+export async function getPageBySlug(slug: string): Promise<PageData | null> {
+    const originalPath = slug.startsWith('/') ? slug.slice(1) : slug;
+    const cleanPath = originalPath.replace(/^services\//, '').toLowerCase();
+    
+    console.log(`!!! SEARCHING FOR PATH: ${originalPath}`);
+
+    // 1. Direct Slug Match (GQL Query - Letters K is Slug)
+    const bySlug = await fetchRowByQuery(`select * where lower(K) = '${cleanPath}' or lower(K) = '${originalPath}'`);
+    if (bySlug) return bySlug;
+
+    // 2. Metadata Match (Inferred for Pattern 1-6)
+    const parts = cleanPath.split(/[/-]/); // split by slash or dash
+    if (parts.length >= 2) {
+        // Find most likely location from parts
+        const possibleLoc = parts.find(p => p.length > 3 && p !== 'digital' && p !== 'marketing' && p !== 'company' && p !== 'services' && p !== 'agency');
+        if (possibleLoc) {
+            const byMeta = await fetchRowByQuery(`select * where lower(C) = '${possibleLoc}' or lower(K) contains '${possibleLoc}'`);
+            if (byMeta) return byMeta;
         }
-
-        // Cache expired or doesn't exist, fetch fresh data
-        console.log('!!! CACHE MISS OR EXPIRED: Fetching from Google Sheets');
-        return await fetchGoogleSheetData();
-    } catch (error) {
-        console.error('Error getting all pages:', error);
-        return [];
     }
+
+    // 3. Fallback to full cache (Ensures all patterns work)
+    const all = await getAllPages();
+    return all.find(p => {
+        const loc = p.locationin.toLowerCase().replace(/\s+/g, '-')
+        const city = p.cityin?.toLowerCase().replace(/\s+/g, '-')
+        const svc = p.parentslug || 'digital-marketing'
+        const nameSlug = p.name.toLowerCase().replace(/\s+/g, '-')
+
+        const patterns = [
+            p.slug,                                       // P0
+            `services/${p.slug}`,                         // P0 (prefixed)
+            `${svc}-company-in-${loc}`,                    // P1
+            `services/${svc}-company-in-${loc}`,           // P1 (prefixed)
+            `${svc}-company-in-${loc}-${city}`,             // P2
+            `${svc}-company-${loc}`,                        // P3
+            `${nameSlug}-in-${loc}`,                       // Name Pattern 1
+            `${nameSlug}-in-${loc}-${city}`,                // Name Pattern 2
+            `${city}/${svc}-services-${loc}`,               // P4
+            `${svc}-agency-${loc}`,                         // P5
+            `in/${loc}/${svc}-company-in-${city}`,          // P6
+            `${svc}-${loc}-${city}`,                        // Dynamic 1
+            `${svc}-${loc}`,                                // Dynamic 2
+            `services/${svc}/${city}/${loc}`,               // Legacy support
+        ];
+        return patterns.includes(originalPath) || patterns.includes(cleanPath);
+    }) || null;
 }
 
-// Clear the in-memory cache (for manual revalidation)
+export async function getPageByHierarchy(parentSlug: string, city: string): Promise<PageData | null> {
+    const targeted = await fetchRowByQuery(`select * where lower(N) = '${parentSlug}' and lower(D) = '${city.toLowerCase()}'`);
+    if (targeted) return targeted;
+    const all = await getAllPages();
+    return all.find(p => p.parentslug === parentSlug && p.cityin?.toLowerCase() === city.toLowerCase()) || null;
+}
+
+export async function getPageByHierarchyWithArea(parentSlug: string, city: string, area: string): Promise<PageData | null> {
+    const targeted = await fetchRowByQuery(`select * where lower(N) = '${parentSlug}' and lower(D) = '${city.toLowerCase()}' and lower(C) = '${area.toLowerCase().replace(/-/g, ' ')}'`);
+    if (targeted) return targeted;
+    const all = await getAllPages();
+    return all.find(p => 
+        p.parentslug === parentSlug && 
+        p.cityin?.toLowerCase() === city.toLowerCase() && 
+        (p.locationin?.toLowerCase() === area.toLowerCase().replace(/-/g, ' ') || p.locationin?.toLowerCase().replace(/\s+/g, '-') === area.toLowerCase())
+    ) || null;
+}
+
+export async function getAllSlugs(): Promise<string[]> {
+    const all = await getAllPages();
+    return all.map(p => p.slug).filter(Boolean);
+}
+
+export async function getTotalCount(): Promise<number> {
+    const all = await getAllPages();
+    return all.length;
+}
+
+export async function getPaginatedPages(limit: number, offset: number): Promise<PageData[]> {
+    const all = await getAllPages();
+    
+    // Sort by date - descending (latest first)
+    const sorted = [...all].sort((a, b) => {
+        const dateA = a.date ? new Date(a.date).getTime() : 0;
+        const dateB = b.date ? new Date(b.date).getTime() : 0;
+        return dateB - dateA;
+    });
+
+    return sorted.slice(offset, offset + limit);
+}
+
 export function clearCache() {
     cachedData = null;
-    console.log('!!! CACHE CLEARED MANUALLY');
-}
-
-// Get page by slug (uses cached all pages data)
-export async function getPageBySlug(slug: string): Promise<PageData | null> {
-    try {
-        const allPages = await getAllPages();
-        const page = allPages.find(p => p.slug === slug);
-
-        if (page) {
-            console.log(`!!! FOUND PAGE FOR SLUG: ${slug}`);
-        } else {
-            console.log(`!!! NO PAGE FOUND FOR SLUG: ${slug}`);
-        }
-
-        return page || null;
-    } catch (error) {
-        console.error('Error fetching page by slug:', error);
-        return null;
-    }
-}
-
-// Get page by hierarchy (parent/city)
-// Get page by hierarchy (parent/city)
-export async function getPageByHierarchy(parentSlug: string, city: string): Promise<PageData | null> {
-    try {
-        const allPages = await getAllPages();
-        const normalizedCity = city.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-
-        // Filter all pages that match this city
-        const cityPages = allPages.filter(p => {
-            const parentMatches = p.parentslug === parentSlug;
-            const sheetCityNormalized = p.cityin?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-
-            // Match via cityin column OR slug endpoint
-            const cityMatches = sheetCityNormalized === normalizedCity;
-            const slugMatches = p.slug.endsWith(`-${normalizedCity}`) || p.slug.includes(normalizedCity);
-
-            return parentMatches && (cityMatches || slugMatches);
-        });
-
-        if (cityPages.length === 0) {
-            console.log(`!!! NO HIERARCHICAL PAGE FOUND FOR: ${parentSlug}/${city}`);
-            return null;
-        }
-
-        // Priority 1: Find page where Location IS the City (e.g. Location: Mysore, City: Mysore)
-        // This ensures /services/digital-marketing/mysore loads the "Main" Mysore page, not an area like "Chamundi Hill".
-        const mainCityPage = cityPages.find(p => {
-            const loc = p.locationin?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            return loc === normalizedCity;
-        });
-
-        if (mainCityPage) {
-            console.log(`!!! FOUND MAIN CITY PAGE FOR: ${parentSlug}/${city}`);
-            return mainCityPage;
-        }
-
-        // Priority 2: Fallback to the first matching page
-        console.log(`!!! FOUND FIRST AVAILABLE AREA PAGE FOR CITY: ${parentSlug}/${city}`);
-        return cityPages[0];
-
-    } catch (error) {
-        console.error('Error fetching page by hierarchy:', error);
-        return null; // Closing brace match
-    }
-}
-
-
-// Get page by hierarchy with area (parent/city/area)
-export async function getPageByHierarchyWithArea(parentSlug: string, city: string, area: string): Promise<PageData | null> {
-    try {
-        const allPages = await getAllPages();
-
-        const normalizedCity = city.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-        const normalizedArea = area.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-
-        const page = allPages.find(p => {
-            const parentMatches = p.parentslug === parentSlug;
-
-            // Check city
-            const sheetCityNormalized = p.cityin?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            const cityMatches = sheetCityNormalized === normalizedCity || p.slug.includes(normalizedCity);
-
-            if (!parentMatches || !cityMatches) return false;
-
-            // Check area - normalize the locationin field from the sheet and compare with URL area
-            const sheetLocationNormalized = p.locationin?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            const locationMatches = sheetLocationNormalized === normalizedArea;
-
-            // Also check if area exists in slug or name as fallback
-            const slugHasArea = p.slug.includes(normalizedArea);
-            const nameHasArea = p.name.toLowerCase().includes(normalizedArea.replace(/-/g, ' '));
-
-            return locationMatches || slugHasArea || nameHasArea;
-        });
-
-        if (page) {
-            console.log(`!!! FOUND AREA PAGE FOR: ${parentSlug}/${city}/${area}`);
-        } else {
-            console.log(`!!! NO AREA PAGE FOUND FOR: ${parentSlug}/${city}/${area}`);
-        }
-
-        return page || null;
-    } catch (error) {
-        console.error('Error fetching page by area hierarchy:', error);
-        return null;
-    }
-}
-
-// Get all slugs (uses cached all pages data)
-export async function getAllSlugs(): Promise<string[]> {
-    try {
-        const allPages = await getAllPages();
-        const slugs = allPages.map(p => p.slug).filter(Boolean);
-        console.log(`!!! RETURNING ${slugs.length} SLUGS`);
-        return slugs;
-    } catch (error) {
-        console.error('Error fetching slugs:', error);
-        return [];
-    }
-}
-
-// Get total count (uses cached all pages data)
-export async function getTotalCount(): Promise<number> {
-    try {
-        const allPages = await getAllPages();
-        return allPages.length;
-    } catch (error) {
-        console.error('Error getting total count:', error);
-        return 0;
-    }
-}
-
-// Get paginated pages (uses cached all pages data)
-export async function getPaginatedPages(limit: number, offset: number): Promise<PageData[]> {
-    try {
-        const allPages = await getAllPages();
-        const paginatedPages = allPages.slice(offset, offset + limit);
-        console.log(`!!! RETURNING ${paginatedPages.length} PAGES (Limit: ${limit}, Offset: ${offset})`);
-        return paginatedPages;
-    } catch (error) {
-        console.error('Error getting paginated pages:', error);
-        return [];
-    }
 }

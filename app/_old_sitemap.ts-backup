@@ -1,0 +1,43 @@
+import { getAllRows } from '@/lib/sheets'
+import { MetadataRoute } from 'next'
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const rows = await getAllRows()
+  const BASE = 'https://organicads.in'
+  const entries: MetadataRoute.Sitemap = []
+
+  for (const row of rows) {
+    const loc = row.locationin.toLowerCase().replace(/\s+/g, '-')
+    const city = row.cityin.toLowerCase().replace(/\s+/g, '-')
+    const svc = row.parentslug || 'digital-marketing'
+    const date = new Date()
+
+    const nameSlug = row.name.toLowerCase().replace(/\s+/g, '-')
+
+    const patterns = [
+      row.slug,
+      `services/${row.slug}`,
+      `${svc}-company-in-${loc}`,
+      `services/${svc}-company-in-${loc}`,
+      `${svc}-company-in-${loc}-${city}`,
+      `${svc}-company-${loc}`,
+      `${nameSlug}-in-${loc}`,
+      `${nameSlug}-in-${loc}-${city}`,
+      `${city}/${svc}-services-${loc}`,
+      `${svc}-agency-${loc}`,
+      `in/${loc}/${svc}-company-in-${city}`,
+    ]
+
+    patterns.forEach((p) => {
+      if (p) {
+        entries.push({
+          url: `${BASE}/${p.startsWith('/') ? p.slice(1) : p}`,
+          priority: p === row.slug || p === `${svc}-company-in-${loc}` ? 0.9 : 0.7,
+          lastModified: date
+        })
+      }
+    })
+  }
+
+  return entries
+}

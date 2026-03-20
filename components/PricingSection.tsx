@@ -440,9 +440,9 @@ export default function PricingSection() {
                                     setBillingCycle('monthly');
                                 }
                             }}
-                            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${activeTab === tab
-                                ? 'bg-white dark:bg-card text-foreground shadow-lg'
-                                : 'bg-transparent text-muted-foreground hover:text-foreground'
+                            className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${activeTab === tab
+                                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
+                                : 'bg-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                                 }`}
                         >
                             {tab}
@@ -494,13 +494,13 @@ export default function PricingSection() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className={`relative rounded-2xl p-8 bg-white dark:bg-card transition-all duration-300 ${plan.popular
-                                ? 'border-2 border-blue-500 shadow-xl'
-                                : 'border border-gray-200 dark:border-border shadow-md'
+                            className={`relative rounded-[2rem] p-8 lg:p-10 transition-all duration-500 ${plan.popular
+                                ? 'bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-300 dark:ring-indigo-700 scale-[1.02]'
+                                : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
                                 }`}
                         >
-                            <h3 className="text-2xl font-bold mb-2 text-foreground">{plan.name}</h3>
-                            <p className="text-muted-foreground mb-6 text-sm">{plan.description}</p>
+                            <h3 className="text-xl font-bold mb-2 tracking-tight text-slate-900 dark:text-white">{plan.name}</h3>
+                            <p className="mb-6 text-sm text-slate-500 dark:text-slate-400">{plan.description}</p>
 
                             <div className="mb-6">
                                 <span className="text-5xl font-bold text-foreground">{plan.price}</span>
@@ -519,9 +519,9 @@ export default function PricingSection() {
                                     const whatsappUrl = `https://wa.me/917259404569?text=${encodeURIComponent(message)}`;
                                     window.open(whatsappUrl, '_blank');
                                 }}
-                                className={`w-full mb-6 ${plan.popular
-                                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                                    : 'bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900'
+                                className={`w-auto mb-6 rounded-full px-8 h-11 text-sm font-semibold border-0 ${plan.popular
+                                    ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                                    : 'bg-slate-900 dark:bg-white hover:bg-slate-800 dark:hover:bg-slate-100 text-white dark:text-slate-900'
                                     }`}
                             >
                                 {plan.price === 'Custom' ? 'Contact Sales' : 'Get started'}

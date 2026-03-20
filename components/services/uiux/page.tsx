@@ -6,7 +6,6 @@ import FeaturedIn from '@/components/FeaturedIn';
 import Services from '@/components/Services';
 import Features from '@/components/Features';
 import SEOResults from '@/components/SEOResults';
-
 import CTA from '@/components/CTA';
 import BackToTop from '@/components/BackToTop';
 import Breadcrumb from '@/components/Breadcrumb';
@@ -107,26 +106,22 @@ export default function UIUXService({ service }: UIUXServiceProps) {
                                 />
                             </div>
 
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-gray-900 dark:text-gray-100">
-                                {service.name} <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400">
+                            <h1 className="text-3xl sm:text-5xl md:text-5xl lg:text-5xl font-medium mb-6 tracking-tight text-gray-900 dark:text-gray-100">
+                                Best {service.name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400">
                                     in {service.locationin}, {service.cityin}
                                 </span>
                             </h1>
 
                             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto lg:mx-0 leading-relaxed mb-8">
-                                {service.descpost === 'domestic'
-                                    ? `Create stunning, user-centric interfaces with Figma, Shadcn UI, and custom design systems that captivate Indian audiences.`
-                                    : `Deliver world-class UI/UX design experiences with premium custom interfaces, responsive layouts, and conversion-focused design systems.`
-                                }
+                                Creating visually stunning and highly intuitive user experiences in {service.locationin}.
                             </p>
 
                             <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-12">
                                 <a href="#contact" className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-all shadow-lg hover:shadow-blue-500/25 text-lg">
-                                    Get Custom Quote
+                                    Get Free Consultation
                                 </a>
                                 <a href="#portfolio" className="px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-full font-semibold hover:border-gray-300 dark:hover:border-gray-600 transition-all text-lg">
-                                    View Portfolio
+                                    View Designs
                                 </a>
                             </div>
 
@@ -139,7 +134,7 @@ export default function UIUXService({ service }: UIUXServiceProps) {
                         <div className="hidden lg:block">
                             <div className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300">
                                 <Image
-                                    src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80"
+                                    src="https://images.unsplash.com/photo-1586717791821-3f44a563eb4c?w=800&q=80"
                                     alt={`${service.name} in ${service.cityin}`}
                                     fill
                                     className="object-cover"

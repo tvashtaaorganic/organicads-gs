@@ -149,4 +149,16 @@
   .glass-effect {
     @apply bg-card/40 backdrop-blur-xl border border-white/10;
   }
+
+  .premium-card {
+    @apply rounded-[32px] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl transition-all duration-300;
+  }
+
+  .welix-gradient {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+  }
+
+  .hover-lift {
+    @apply hover:-translate-y-2 transition-transform duration-300;
+  }
 }

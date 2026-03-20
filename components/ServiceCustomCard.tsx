@@ -95,48 +95,50 @@ export default function ServiceCustomCard({ serviceName }: ServiceCustomCardProp
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-16">
-            <div className="bg-card border border-border rounded-xl p-4 sm:p-6 md:p-8 shadow-lg text-center">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 break-words leading-tight">
-                    Get Customized {serviceName} On Request, Call Now:{' '}
-                    <span className="block sm:inline mt-2 sm:mt-0">{phoneNumber}</span>
-                </h2>
-                <p className="text-sm sm:text-base text-muted-foreground mb-8 max-w-7xl mx-auto leading-relaxed">
-                    {getDescription()}
-                </p>
+            <div className="bg-slate-100 dark:bg-slate-800 border-0 rounded-[2.5rem] p-8 sm:p-10 md:p-12 text-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-50" />
+                <div className="relative z-10">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 break-words leading-tight">
+                        Get Customized {serviceName} On Request, Call Now:{' '}
+                        <span className="block sm:inline mt-2 sm:mt-0 text-primary">{phoneNumber}</span>
+                    </h2>
+                    <p className="text-sm sm:text-base text-muted-foreground mb-10 max-w-4xl mx-auto leading-relaxed">
+                        {getDescription()}
+                    </p>
 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <Button
-                        size="lg"
-                        onClick={handleWhatsApp}
-                        className="bg-[#25D366] hover:bg-[#20BA5A] text-white px-8 py-6 text-lg w-full sm:w-auto min-w-[200px]"
-                    >
-                        <MessageCircle className="mr-2 w-5 h-5" />
-                        WhatsApp Now
-                    </Button>
+                    <div className="flex flex-row flex-wrap gap-2 justify-center items-center">
+                        <Button
+                            size="lg"
+                            onClick={handleWhatsApp}
+                            className="bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-2xl px-5 h-12 text-sm flex-1 sm:flex-none sm:min-w-[160px] font-bold border-0 shadow-md"
+                        >
+                            <MessageCircle className="mr-2 w-4 h-4" />
+                            WhatsApp
+                        </Button>
 
-                    <Button
-                        size="lg"
-                        onClick={handleCall}
-                        variant="outline"
-                        className="border-2 border-foreground bg-foreground text-background hover:bg-foreground/90 px-8 py-6 text-lg w-full sm:w-auto min-w-[200px]"
-                    >
-                        <Phone className="mr-2 w-5 h-5" />
-                        Call Now
-                    </Button>
+                        <Button
+                            size="lg"
+                            onClick={handleCall}
+                            className="bg-slate-900 hover:bg-slate-800 dark:bg-slate-200 dark:hover:bg-white text-white dark:text-slate-900 rounded-2xl px-5 h-12 text-sm flex-1 sm:flex-none sm:min-w-[160px] font-bold border-0 shadow-md"
+                        >
+                            <Phone className="mr-2 w-4 h-4" />
+                            Call Now
+                        </Button>
 
-                    <Button
-                        size="lg"
-                        onClick={handleRequestQuote}
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg w-full sm:w-auto min-w-[200px]"
-                    >
-                        <FileText className="mr-2 w-5 h-5" />
-                        {showForm ? 'Close Quote Form' : 'Request Quote'}
-                    </Button>
+                        <Button
+                            size="lg"
+                            onClick={handleRequestQuote}
+                            className="bg-blue-600 hover:bg-blue-700 text-white rounded-2xl px-5 h-12 text-sm flex-1 sm:flex-none sm:min-w-[160px] font-bold border-0 shadow-md"
+                        >
+                            <FileText className="mr-2 w-4 h-4" />
+                            {showForm ? 'Close' : 'Quote'}
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Embedded Form Section */}
                 {showForm && (
-                    <div className="mt-8 w-full h-[800px] border border-border rounded-xl overflow-hidden shadow-inner bg-background animate-in fade-in slide-in-from-top-4 duration-500">
+                    <div className="mt-8 w-full h-[800px] rounded-3xl overflow-hidden bg-background">
                         <iframe
                             src="https://forms.fillout.com/t/bBpksmrcG1us"
                             width="100%"

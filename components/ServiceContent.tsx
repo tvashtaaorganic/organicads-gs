@@ -52,7 +52,7 @@ export default function ServiceContent({ pageData }: ServiceContentProps) {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: index * 0.1 }}
-                            className="bg-card border border-border rounded-xl p-6 shadow-sm"
+                            className="bg-slate-100 dark:bg-slate-800 rounded-3xl p-8"
                         >
                             <h2 className="text-2xl font-bold mb-4 text-foreground">{section.title}</h2>
                             <p className="text-muted-foreground leading-relaxed">{section.content}</p>
@@ -65,9 +65,8 @@ export default function ServiceContent({ pageData }: ServiceContentProps) {
                     <div className="text-center mt-8">
                         <Button
                             onClick={() => setShowFullContent(!showFullContent)}
-                            variant="outline"
                             size="lg"
-                            className="px-8"
+                            className="px-10 h-12 rounded-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 font-semibold border-0"
                         >
                             {showFullContent ? (
                                 <>

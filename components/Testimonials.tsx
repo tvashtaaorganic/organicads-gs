@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const testimonials = [
@@ -61,7 +61,6 @@ export default function Testimonials() {
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
 
-    // Initial check for screen size
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
@@ -69,7 +68,6 @@ export default function Testimonials() {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Auto-play
     useEffect(() => {
         if (!isAutoPlaying) return;
         const interval = setInterval(nextSlide, 5000);
@@ -79,23 +77,13 @@ export default function Testimonials() {
     const nextSlide = () => {
         const itemsToShow = isMobile ? 1 : 3;
         const maxIndex = testimonials.length - itemsToShow;
-        // If we reach the end, loop back to 0
-        if (currentIndex >= maxIndex) {
-            setCurrentIndex(0);
-        } else {
-            setCurrentIndex((prev) => prev + 1);
-        }
+        setCurrentIndex(prev => (prev >= maxIndex ? 0 : prev + 1));
     };
 
     const prevSlide = () => {
         const itemsToShow = isMobile ? 1 : 3;
         const maxIndex = testimonials.length - itemsToShow;
-        // If we are at 0, loop to end
-        if (currentIndex <= 0) {
-            setCurrentIndex(maxIndex);
-        } else {
-            setCurrentIndex((prev) => prev - 1);
-        }
+        setCurrentIndex(prev => (prev <= 0 ? maxIndex : prev - 1));
     };
 
     return (
@@ -106,11 +94,11 @@ export default function Testimonials() {
         >
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center mb-12 space-y-4">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-100 text-orange-600 text-xs font-semibold uppercase tracking-wide">
-                        <Star className="w-3.5 h-3.5 fill-current" />
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                         Client Reviews
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold text-foreground">
+                    <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white">
                         What Our <span className="gradient-text">Clients Say</span>
                     </h2>
                     <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -119,61 +107,46 @@ export default function Testimonials() {
                 </div>
 
                 <div className="relative max-w-7xl mx-auto">
-                    {/* Navigation Buttons - Always visible */}
-                    <div className="flex justify-between absolute top-1/2 -translate-y-1/2 w-full z-20 px-0 md:-px-12 pointer-events-none">
+                    <div className="flex justify-between absolute top-1/2 -translate-y-1/2 w-full z-20 pointer-events-none">
                         <Button
-                            variant="outline"
                             size="icon"
                             onClick={prevSlide}
-                            className="bg-background/80 hover:bg-background shadow-lg rounded-full w-10 h-10 md:w-12 md:h-12 border-border/50 pointer-events-auto -ml-4 md:-ml-12"
+                            className="bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full w-12 h-12 pointer-events-auto -ml-4 md:-ml-6 border-0 shadow-none transition-transform hover:scale-110"
                         >
-                            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                            <ChevronLeft className="w-5 h-5 text-slate-700 dark:text-slate-200" />
                         </Button>
                         <Button
-                            variant="outline"
                             size="icon"
                             onClick={nextSlide}
-                            className="bg-background/80 hover:bg-background shadow-lg rounded-full w-10 h-10 md:w-12 md:h-12 border-border/50 pointer-events-auto -mr-4 md:-mr-12"
+                            className="bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full w-12 h-12 pointer-events-auto -mr-4 md:-mr-6 border-0 shadow-none transition-transform hover:scale-110"
                         >
-                            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                            <ChevronRight className="w-5 h-5 text-slate-700 dark:text-slate-200" />
                         </Button>
                     </div>
 
-                    {/* Carousel Container */}
-                    <div className="overflow-hidden px-1 md:px-2 py-4">
+                    <div className="overflow-hidden px-2 py-4">
                         <motion.div
-                            animate={{
-                                x: `-${currentIndex * (isMobile ? 100 : 33.33)}%`
-                            }}
-                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            animate={{ x: `-${currentIndex * (isMobile ? 100 : 33.33)}%` }}
+                            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                             className="flex"
                         >
                             {testimonials.map((testimonial, idx) => (
-                                <div
-                                    key={idx}
-                                    className={`flex-shrink-0 w-full md:w-1/3 px-3 md:px-4`}
-                                >
-                                    <div className="bg-white dark:bg-card rounded-2xl p-6 md:p-8 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-border h-full flex flex-col items-center text-center group">
-
-                                        <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center text-xl md:text-2xl font-bold mb-4 ${testimonial.color} transform group-hover:scale-110 transition-transform`}>
+                                <div key={idx} className="flex-shrink-0 w-full md:w-1/3 px-3 md:px-4">
+                                    <div className="bg-slate-100 dark:bg-slate-800 rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 hover:bg-slate-200 dark:hover:bg-slate-700 h-full flex flex-col items-center text-center group">
+                                        <div className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mb-6 ${testimonial.color} group-hover:scale-110 transition-transform duration-300`}>
                                             {testimonial.image}
                                         </div>
-
-                                        {/* <Quote className="w-8 h-8 text-orange-400 opacity-20 mb-4" /> */}
-
-                                        <p className="text-muted-foreground mb-6 text-sm md:text-base leading-relaxed flex-grow">
-                                            "{testimonial.text}"
+                                        <p className="text-slate-600 dark:text-slate-400 mb-6 text-base leading-relaxed flex-grow">
+                                            &ldquo;{testimonial.text}&rdquo;
                                         </p>
-
-                                        <div className="flex items-center gap-1 mb-3">
+                                        <div className="flex items-center gap-1 mb-4">
                                             {[...Array(5)].map((_, i) => (
                                                 <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                                             ))}
                                         </div>
-
                                         <div>
-                                            <h4 className="font-bold text-base md:text-lg text-foreground">{testimonial.name}</h4>
-                                            <p className="text-xs md:text-sm text-orange-500 font-medium">{testimonial.role}</p>
+                                            <h4 className="font-bold text-lg text-slate-900 dark:text-white">{testimonial.name}</h4>
+                                            <p className="text-sm text-orange-500 font-medium">{testimonial.role}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -181,14 +154,12 @@ export default function Testimonials() {
                         </motion.div>
                     </div>
 
-                    {/* Dots Indicator */}
                     <div className="flex justify-center gap-2 mt-6 md:mt-10">
                         {Array.from({ length: testimonials.length - (isMobile ? 0 : 2) }).map((_, idx) => (
                             <button
                                 key={idx}
                                 onClick={() => setCurrentIndex(idx)}
-                                className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-6 bg-primary' : 'w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                                    }`}
+                                className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-6 bg-slate-900 dark:bg-white' : 'w-1.5 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400'}`}
                                 aria-label={`Go to slide ${idx + 1}`}
                             />
                         ))}
